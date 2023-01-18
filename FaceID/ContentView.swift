@@ -10,11 +10,19 @@ import SwiftUI
 
 struct ContentView: View {
     @State var framesBetweenUpdates: Double = 10
+    @State var userPassword: String
+    
     var cameraView: CameraView
     
     init() {
         self.cameraView = CameraView()
         self.cameraView.vc.saveAllFrames = false
+        
+        // Retrieve password if it exists
+        self.userPassword = UserDefaults.standard.string(forKey: "userPassword") ?? ""
+        if self.userPassword != "" {
+            print("Recovered password: \(self.userPassword)")
+        }
     }
     
     var body: some View {
@@ -23,53 +31,25 @@ struct ContentView: View {
                 .onChange(of: framesBetweenUpdates) { newValue in
                     self.cameraView.vc.set(framesBetweenUpdates: Int(newValue))
                 }
+                .frame(width: 1000, height: 600)
+            
+            HStack {
+                Spacer()
+                VStack {
+                    SliderView(framesBetweenUpdates: $framesBetweenUpdates)
+                        .frame(width: 400)
+                }
+                .padding()
+                Spacer()
+                VStack(alignment: .leading) {
+                    ControlInterface(userPassword: $userPassword)
+                        .frame(width: 400)
+                }
+                .padding()
+                Spacer()
+            }
             Spacer()
-            SliderView(framesBetweenUpdates: $framesBetweenUpdates)
-                .padding(.vertical)
-                .frame(width: 800)
-            Button {
-                lockScreen()
-            } label: {
-                Text("Lock")
-            }
-            Button {
-                startScreenSaver()
-            } label: {
-                Text("Screen Saver")
-            }
-            Button {
-                unlockScreen(password: "Edifice@1213")
-            } label: {
-                Text("Unlock")
-            }
-
         }
-        .padding()
-    }
-}
-
-struct SliderView: View {
-    @Binding var framesBetweenUpdates: Double
-    @State var isEditing: Bool = false
-    
-    var minimumValue: Int = 0
-    var maximumValue: Int = 80
-    
-    var body: some View {
-        Slider(value: $framesBetweenUpdates, in: Double(minimumValue)...Double(maximumValue), step: 5) {
-            Text("Frames Between Updates")
-        } minimumValueLabel: {
-            Text("\(minimumValue)")
-        } maximumValueLabel: {
-            Text("\(maximumValue)")
-        } onEditingChanged: { editing in
-            isEditing = editing
-        } .onSubmit {
-            
-        }
-        Text("\(Int(framesBetweenUpdates))")
-            .foregroundColor(isEditing ? .red : .blue)
-            
     }
 }
 

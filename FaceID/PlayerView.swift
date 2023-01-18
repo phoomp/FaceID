@@ -34,21 +34,23 @@ class CameraViewController: NSViewController {
     private var count: Int = 0
     private var framesBetweenUpdates: Int = 10
     var saveAllFrames: Bool = true
+    var performFaceRecognition: Bool = true
     var boxView: BoundingBox = BoundingBox()
-//    = BoundingBox(frame: CGRectMake(0, 0, 640, 480))
+    
+    let imageClassifier = createImageClassifer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         checkPermission()
-        
-        self.boxView = BoundingBox(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
-        self.view.addSubview(self.boxView)
                 
         sessionQueue.async {
             guard self.permissionGranted else { return }
             self.setupCaptureSession()
             self.captureSession.startRunning()
         }
+        
+        self.boxView = BoundingBox(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
+        self.view.addSubview(self.boxView)
     }
     
     override func loadView() {
@@ -82,7 +84,7 @@ class CameraViewController: NSViewController {
         print("width: \(String(describing: screenRect?.width)), height: \(String(describing: screenRect?.height))")
         
         previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
-        previewLayer.videoGravity = .resize
+        previewLayer.videoGravity = .resizeAspectFill
         self.captureSession.commitConfiguration()
         
         // Connect previewLayer and face frame
@@ -128,13 +130,28 @@ class CameraViewController: NSViewController {
     func performVisionRequests(on pixelBuffer: CVPixelBuffer) {
         let imageSequenceHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
         let detectedFaceRequest = VNDetectFaceRectanglesRequest(completionHandler: displayObservationResults)
+        let facenetRequest = VNCoreMLRequest(model: imageClassifier, completionHandler: processFaceNetResults)
+        
+        var visionRequests: [VNRequest] = []
+        visionRequests.append(detectedFaceRequest)
+        
+        if self.performFaceRecognition {
+            visionRequests.append(facenetRequest)
+        }
         
         do {
-            try imageSequenceHandler.perform([detectedFaceRequest])
+            try imageSequenceHandler.perform(visionRequests)
         } catch {
-            print("Vis err")
+            print("Vision request error")
             print(error.localizedDescription)
         }
+    }
+    
+    func processFaceNetResults(request: VNRequest, error: Error?) {
+        guard let results = request.results as? [VNRequest], let results = results.first else {
+            return
+        }
+        
     }
     
     func displayObservationResults(request: VNRequest, error: Error?) {
@@ -156,17 +173,18 @@ class CameraViewController: NSViewController {
             print("Error converting image")
             return
         }
-        print(image)
     }
     
     func createCGImage(from pixelBuffer: CVPixelBuffer, save: Bool, boundingBox: CGRect?) -> CGImage? {
         let ciContext = CIContext()
         let ciImage = CIImage(cvImageBuffer: pixelBuffer)
         
-        do {
-            try ciContext.writePNGRepresentation(of: ciImage, to: URL(filePath: "/Users/phoom/Documents/pics/\(UUID()).png"), format: .RGBA8, colorSpace: ciImage.colorSpace!)
-        } catch {
-            print("Error: \(error)")
+        if save {
+            do {
+                try ciContext.writePNGRepresentation(of: ciImage, to: URL(filePath: "/Users/phoom/Documents/pics/\(UUID()).png"), format: .RGBA8, colorSpace: ciImage.colorSpace!)
+            } catch {
+                print("Error: \(error)")
+            }
         }
         return ciContext.createCGImage(ciImage, from: ciImage.extent)
     }
