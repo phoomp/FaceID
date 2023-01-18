@@ -33,7 +33,7 @@ class CameraViewController: NSViewController {
     private var sessionQueue = DispatchQueue(label: "sessionQueue")
     private var count: Int = 0
     private var framesBetweenUpdates: Int = 10
-    private var saveAllFrames: Bool = true
+    var saveAllFrames: Bool = true
     var boxView: BoundingBox = BoundingBox()
 //    = BoundingBox(frame: CGRectMake(0, 0, 640, 480))
 
@@ -152,7 +152,7 @@ class CameraViewController: NSViewController {
     }
     
     func saveFullImage(pixelBuffer: CVPixelBuffer) {
-        guard let image = self.createCGImage(from: pixelBuffer, save: true, boundingBox: nil) else {
+        guard let image = self.createCGImage(from: pixelBuffer, save: self.saveAllFrames, boundingBox: nil) else {
             print("Error converting image")
             return
         }

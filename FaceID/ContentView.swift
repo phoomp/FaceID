@@ -14,6 +14,7 @@ struct ContentView: View {
     
     init() {
         self.cameraView = CameraView()
+        self.cameraView.vc.saveAllFrames = false
     }
     
     var body: some View {
