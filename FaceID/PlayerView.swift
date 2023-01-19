@@ -35,6 +35,7 @@ class CameraViewController: NSViewController {
     private var framesBetweenUpdates: Int = 10
     var saveAllFrames: Bool = true
     var performFaceRecognition: Bool = true
+    var facenetModel = createImageClassifer()
     var boxView: BoundingBox = BoundingBox()
     
     override func viewDidLoad() {
@@ -149,19 +150,6 @@ class CameraViewController: NSViewController {
         }
         
         // WORKAROUND: Convert to CGImage and back to CVPixelBuffer. Not the most efficient, but better than converting to kCVPixelFormat directly
-        let cgImage = createCGImage(from: pixelBuffer, save: false, boundingBox: nil)
-        
-        
-//        let reshapedImage = MLMultiArray(pixelBuffer: pixelBuffer, shape: [3, 96, 96])
-        guard let reshapedImage = try? MLMultiArray(shape: [1, 3, 96, 96], dataType: .float16) else {
-            fatalError("Failed to create MLMultiArray")
-        }
-        
-        let modelInput = FaceNetInput(input_1: reshapedImage)
-        guard let output = try? model.prediction(input: modelInput) else { return 0.00 }
-        
-        print(output)
-        
         return 1.00
     }
     

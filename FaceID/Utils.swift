@@ -75,7 +75,7 @@ public func unlockScreen() {
 }
 
 // Facenet model definition
-public func createImageClassifer() -> VNCoreMLModel {
+public func createImageClassifer() -> VNCoreMLModel? {
     // Use a default model configuration
     let defaultConfig = MLModelConfiguration()
     

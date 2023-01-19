@@ -11,7 +11,6 @@
 		101DD9EF2977BF6000A28ED7 /* convert.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9EC2977BF6000A28ED7 /* convert.py */; };
 		101DD9F02977BF6000A28ED7 /* fr_utils.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9ED2977BF6000A28ED7 /* fr_utils.py */; };
 		101DD9F12977BF6000A28ED7 /* inception_blocks_v2.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9EE2977BF6000A28ED7 /* inception_blocks_v2.py */; };
-		1045D80F297270F40094D38F /* FaceNet.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 1045D80E297270F40094D38F /* FaceNet.mlpackage */; };
 		1054D49D297032D400B26BA7 /* FaceIDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D49C297032D400B26BA7 /* FaceIDApp.swift */; };
 		1054D49F297032D400B26BA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D49E297032D400B26BA7 /* ContentView.swift */; };
 		1054D4A1297032D500B26BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1054D4A0297032D500B26BA7 /* Assets.xcassets */; };
@@ -21,6 +20,8 @@
 		1054D4BB297032D500B26BA7 /* FaceIDUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D4BA297032D500B26BA7 /* FaceIDUITestsLaunchTests.swift */; };
 		1054D4C82970354800B26BA7 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D4C72970354800B26BA7 /* Utils.swift */; };
 		1093281B29739744001D068B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093281A29739744001D068B /* PlayerView.swift */; };
+		109DDABA2979150F00EB319C /* MLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DDAB92979150F00EB319C /* MLConversion.swift */; };
+		109DDABC29791B0A00EB319C /* FaceNet.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 109DDABB29791B0A00EB319C /* FaceNet.mlpackage */; };
 		10B7BD512977AD7B00A11929 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7BD502977AD7B00A11929 /* SliderView.swift */; };
 		10B7BD532977ADCC00A11929 /* ControlInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7BD522977ADCC00A11929 /* ControlInterface.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +48,6 @@
 		101DD9EC2977BF6000A28ED7 /* convert.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = convert.py; sourceTree = "<group>"; };
 		101DD9ED2977BF6000A28ED7 /* fr_utils.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = fr_utils.py; sourceTree = "<group>"; };
 		101DD9EE2977BF6000A28ED7 /* inception_blocks_v2.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = inception_blocks_v2.py; sourceTree = "<group>"; };
-		1045D80E297270F40094D38F /* FaceNet.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = FaceNet.mlpackage; sourceTree = "<group>"; };
 		1054D499297032D400B26BA7 /* FaceID.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceID.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1054D49C297032D400B26BA7 /* FaceIDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDApp.swift; sourceTree = "<group>"; };
 		1054D49E297032D400B26BA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +61,8 @@
 		1054D4BA297032D500B26BA7 /* FaceIDUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1054D4C72970354800B26BA7 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1093281A29739744001D068B /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		109DDAB92979150F00EB319C /* MLConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLConversion.swift; sourceTree = "<group>"; };
+		109DDABB29791B0A00EB319C /* FaceNet.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; name = FaceNet.mlpackage; path = "../../faceID-Mac/FaceNet.mlpackage"; sourceTree = "<group>"; };
 		10B7BD502977AD7B00A11929 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		10B7BD522977ADCC00A11929 /* ControlInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,10 +123,11 @@
 				1093281A29739744001D068B /* PlayerView.swift */,
 				1054D4C72970354800B26BA7 /* Utils.swift */,
 				1011DDAF2977909B0057C66A /* BoundingBox.swift */,
+				109DDABB29791B0A00EB319C /* FaceNet.mlpackage */,
 				1054D4A0297032D500B26BA7 /* Assets.xcassets */,
-				1045D80E297270F40094D38F /* FaceNet.mlpackage */,
 				1054D4A5297032D500B26BA7 /* FaceID.entitlements */,
 				1054D4A2297032D500B26BA7 /* Preview Content */,
+				109DDAB92979150F00EB319C /* MLConversion.swift */,
 			);
 			path = FaceID;
 			sourceTree = "<group>";
@@ -299,9 +302,10 @@
 			files = (
 				1054D49F297032D400B26BA7 /* ContentView.swift in Sources */,
 				1054D49D297032D400B26BA7 /* FaceIDApp.swift in Sources */,
-				1045D80F297270F40094D38F /* FaceNet.mlpackage in Sources */,
 				1011DDB02977909B0057C66A /* BoundingBox.swift in Sources */,
+				109DDABA2979150F00EB319C /* MLConversion.swift in Sources */,
 				1093281B29739744001D068B /* PlayerView.swift in Sources */,
+				109DDABC29791B0A00EB319C /* FaceNet.mlpackage in Sources */,
 				10B7BD532977ADCC00A11929 /* ControlInterface.swift in Sources */,
 				1054D4C82970354800B26BA7 /* Utils.swift in Sources */,
 				10B7BD512977AD7B00A11929 /* SliderView.swift in Sources */,
