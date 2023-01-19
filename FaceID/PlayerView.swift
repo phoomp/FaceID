@@ -37,8 +37,6 @@ class CameraViewController: NSViewController {
     var performFaceRecognition: Bool = true
     var boxView: BoundingBox = BoundingBox()
     
-    let imageClassifier = createImageClassifer()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         checkPermission()
@@ -69,8 +67,10 @@ class CameraViewController: NSViewController {
         guard self.captureSession.canAddInput(videoDeviceInput) else { return }
         self.captureSession.addInput(videoDeviceInput)
         
-        // MLModel
+        // Output to VN and FaceNet
         let output = AVCaptureVideoDataOutput()
+        let settings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_OneComponent16Half]
+//        output.videoSettings = settings
         output.alwaysDiscardsLateVideoFrames = false
         output.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInteractive))
         guard self.captureSession.canAddOutput(output) else {
@@ -129,32 +129,43 @@ class CameraViewController: NSViewController {
     
     func performVisionRequests(on pixelBuffer: CVPixelBuffer) {
         let imageSequenceHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
-        let detectedFaceRequest = VNDetectFaceRectanglesRequest(completionHandler: displayObservationResults)
-        let facenetRequest = VNCoreMLRequest(model: imageClassifier, completionHandler: processFaceNetResults)
-        
-        var visionRequests: [VNRequest] = []
-        visionRequests.append(detectedFaceRequest)
-        
-        if self.performFaceRecognition {
-            visionRequests.append(facenetRequest)
+        let detectedFaceRequest = VNDetectFaceRectanglesRequest { request, error in
+            let probability: Float = self.performFaceRecognition ? self.performFaceNetInference(pixelBuffer: pixelBuffer) : 0.00
+            self.displayObservationResults(request: request, probability: probability, error: error)
         }
         
         do {
-            try imageSequenceHandler.perform(visionRequests)
+            try imageSequenceHandler.perform([detectedFaceRequest])
         } catch {
             print("Vision request error")
             print(error.localizedDescription)
         }
     }
     
-    func processFaceNetResults(request: VNRequest, error: Error?) {
-        guard let results = request.results as? [VNRequest], let results = results.first else {
-            return
+    func performFaceNetInference(pixelBuffer: CVPixelBuffer) -> Float {
+        let configuration = MLModelConfiguration()
+        guard let model = try? FaceNet(configuration: configuration) else {
+            fatalError("Could not initialize model with configuration \(configuration)")
         }
         
+        // WORKAROUND: Convert to CGImage and back to CVPixelBuffer. Not the most efficient, but better than converting to kCVPixelFormat directly
+        let cgImage = createCGImage(from: pixelBuffer, save: false, boundingBox: nil)
+        
+        
+//        let reshapedImage = MLMultiArray(pixelBuffer: pixelBuffer, shape: [3, 96, 96])
+        guard let reshapedImage = try? MLMultiArray(shape: [1, 3, 96, 96], dataType: .float16) else {
+            fatalError("Failed to create MLMultiArray")
+        }
+        
+        let modelInput = FaceNetInput(input_1: reshapedImage)
+        guard let output = try? model.prediction(input: modelInput) else { return 0.00 }
+        
+        print(output)
+        
+        return 1.00
     }
     
-    func displayObservationResults(request: VNRequest, error: Error?) {
+    func displayObservationResults(request: VNRequest, probability: Float, error: Error?) {
         guard let results = request.results as? [VNFaceObservation],
               let result = results.first
         else {
@@ -219,7 +230,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         count = 0
         performVisionRequests(on: pixelBuffer)
         DispatchQueue.global(qos: .utility).async {
-            self.saveFullImage(pixelBuffer: pixelBuffer)
+            let cgImage = self.saveFullImage(pixelBuffer: pixelBuffer)
         }
     }
 }

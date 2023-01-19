@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1011DDB02977909B0057C66A /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1011DDAF2977909B0057C66A /* BoundingBox.swift */; };
+		101DD9EF2977BF6000A28ED7 /* convert.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9EC2977BF6000A28ED7 /* convert.py */; };
+		101DD9F02977BF6000A28ED7 /* fr_utils.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9ED2977BF6000A28ED7 /* fr_utils.py */; };
+		101DD9F12977BF6000A28ED7 /* inception_blocks_v2.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9EE2977BF6000A28ED7 /* inception_blocks_v2.py */; };
 		1045D80F297270F40094D38F /* FaceNet.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 1045D80E297270F40094D38F /* FaceNet.mlpackage */; };
 		1054D49D297032D400B26BA7 /* FaceIDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D49C297032D400B26BA7 /* FaceIDApp.swift */; };
 		1054D49F297032D400B26BA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D49E297032D400B26BA7 /* ContentView.swift */; };
@@ -41,6 +44,9 @@
 
 /* Begin PBXFileReference section */
 		1011DDAF2977909B0057C66A /* BoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundingBox.swift; sourceTree = "<group>"; };
+		101DD9EC2977BF6000A28ED7 /* convert.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = convert.py; sourceTree = "<group>"; };
+		101DD9ED2977BF6000A28ED7 /* fr_utils.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = fr_utils.py; sourceTree = "<group>"; };
+		101DD9EE2977BF6000A28ED7 /* inception_blocks_v2.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = inception_blocks_v2.py; sourceTree = "<group>"; };
 		1045D80E297270F40094D38F /* FaceNet.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = FaceNet.mlpackage; sourceTree = "<group>"; };
 		1054D499297032D400B26BA7 /* FaceID.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceID.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1054D49C297032D400B26BA7 /* FaceIDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDApp.swift; sourceTree = "<group>"; };
@@ -107,6 +113,7 @@
 		1054D49B297032D400B26BA7 /* FaceID */ = {
 			isa = PBXGroup;
 			children = (
+				10B7BD542977BF2B00A11929 /* Python */,
 				1054D49C297032D400B26BA7 /* FaceIDApp.swift */,
 				1054D49E297032D400B26BA7 /* ContentView.swift */,
 				10B7BD522977ADCC00A11929 /* ControlInterface.swift */,
@@ -145,6 +152,16 @@
 				1054D4BA297032D500B26BA7 /* FaceIDUITestsLaunchTests.swift */,
 			);
 			path = FaceIDUITests;
+			sourceTree = "<group>";
+		};
+		10B7BD542977BF2B00A11929 /* Python */ = {
+			isa = PBXGroup;
+			children = (
+				101DD9EC2977BF6000A28ED7 /* convert.py */,
+				101DD9ED2977BF6000A28ED7 /* fr_utils.py */,
+				101DD9EE2977BF6000A28ED7 /* inception_blocks_v2.py */,
+			);
+			path = Python;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +270,9 @@
 			files = (
 				1054D4A4297032D500B26BA7 /* Preview Assets.xcassets in Resources */,
 				1054D4A1297032D500B26BA7 /* Assets.xcassets in Resources */,
+				101DD9F12977BF6000A28ED7 /* inception_blocks_v2.py in Resources */,
+				101DD9F02977BF6000A28ED7 /* fr_utils.py in Resources */,
+				101DD9EF2977BF6000A28ED7 /* convert.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
