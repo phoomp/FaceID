@@ -131,27 +131,21 @@ class CameraViewController: NSViewController {
     func performVisionRequests(on pixelBuffer: CVPixelBuffer) {
         let imageSequenceHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
         let detectedFaceRequest = VNDetectFaceRectanglesRequest { request, error in
-            let probability: Float = self.performFaceRecognition ? self.performFaceNetInference(pixelBuffer: pixelBuffer) : 0.00
-            self.displayObservationResults(request: request, probability: probability, error: error)
+            
+        }
+        let facenetRequest = VNCoreMLRequest(model: self.facenetModel!) { request, error in
+            print(request.results)
         }
         
         do {
-            try imageSequenceHandler.perform([detectedFaceRequest])
+            try imageSequenceHandler.perform([detectedFaceRequest, facenetRequest])
         } catch {
             print("Vision request error")
             print(error.localizedDescription)
         }
     }
     
-    func performFaceNetInference(pixelBuffer: CVPixelBuffer) -> Float {
-        let configuration = MLModelConfiguration()
-        guard let model = try? FaceNet(configuration: configuration) else {
-            fatalError("Could not initialize model with configuration \(configuration)")
-        }
-        
-        // WORKAROUND: Convert to CGImage and back to CVPixelBuffer. Not the most efficient, but better than converting to kCVPixelFormat directly
-        return 1.00
-    }
+    
     
     func displayObservationResults(request: VNRequest, probability: Float, error: Error?) {
         guard let results = request.results as? [VNFaceObservation],
