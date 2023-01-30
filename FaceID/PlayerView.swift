@@ -33,10 +33,15 @@ class CameraViewController: NSViewController {
     private var sessionQueue = DispatchQueue(label: "sessionQueue")
     private var count: Int = 0
     private var framesBetweenUpdates: Int = 10
+
     var saveAllFrames: Bool = true
     var performFaceRecognition: Bool = true
-    var facenetModel = createImageClassifer()
+    var facenetModel = createImageClassifier()
     var boxView: BoundingBox = BoundingBox()
+    var saveThisFace: Bool = false
+    
+    var validFaces: [[Double]] = []
+    var minimumSimilarity = 0.035
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,8 +75,9 @@ class CameraViewController: NSViewController {
         
         // Output to VN and FaceNet
         let output = AVCaptureVideoDataOutput()
-        let settings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_OneComponent16Half]
-//        output.videoSettings = settings
+        output.videoSettings = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)
+        ]
         output.alwaysDiscardsLateVideoFrames = false
         output.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInteractive))
         guard self.captureSession.canAddOutput(output) else {
@@ -128,35 +134,114 @@ class CameraViewController: NSViewController {
         }
     }
     
-    func performVisionRequests(on pixelBuffer: CVPixelBuffer) {
+    func performFaceLocalization(on pixelBuffer: CVPixelBuffer) -> CGRect {
         let imageSequenceHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
+        var boundingBox: CGRect = CGRect()
+        var resultBuffer: CVPixelBuffer?
+        
         let detectedFaceRequest = VNDetectFaceRectanglesRequest { request, error in
-            
-        }
-        let facenetRequest = VNCoreMLRequest(model: self.facenetModel!) { request, error in
-            print(request.results)
+            guard let results = request.results as? [VNFaceObservation],
+                  let result = results.first
+            else {
+                return
+            }
+            boundingBox = result.boundingBox
         }
         
         do {
-            try imageSequenceHandler.perform([detectedFaceRequest, facenetRequest])
+            try imageSequenceHandler.perform([detectedFaceRequest])
         } catch {
             print("Vision request error")
             print(error.localizedDescription)
         }
+        
+        return boundingBox
     }
     
-    
-    
-    func displayObservationResults(request: VNRequest, probability: Float, error: Error?) {
-        guard let results = request.results as? [VNFaceObservation],
-              let result = results.first
-        else {
-            return
+    func performFaceClassification(on image: CGImage) -> (Bool, Float) {
+        let handler = VNImageRequestHandler(cgImage: image, orientation: .up)
+        var positive: Bool = false
+        var minDist: Double = 1000
+        
+        let facenetRequest = VNCoreMLRequest(model: self.facenetModel!) { request, error in
+            guard let results = request.results as? [VNCoreMLFeatureValueObservation],
+                  let result = results.first else {
+                fatalError("Could not decode results")
+            }
+            guard let rawResult = result.featureValue.multiArrayValue else { return }
+            (positive, minDist) = self.processFacenetResults(result: rawResult)
         }
         
-        self.boxView.boxRect = result.boundingBox
+        do {
+            try handler.perform([facenetRequest])
+        } catch {
+            print("FaceNet Error")
+            print(error.localizedDescription)
+        }
+        
+        return (positive, Float(minDist))
+    }
+    
+    func euclideanNorm(arr1: [Double], arr2: [Double]) -> Double {
+        var sumBeforeRoot: Double = 0
+        for (_, (m1, m2)) in zip(arr1, arr2).enumerated() {
+            sumBeforeRoot += pow((m2 - m1), 2)
+        }
+        
+        return sumBeforeRoot.squareRoot()
+    }
+    
+    func convertToDoubleArray(from mlArray: MLMultiArray) -> [Double] {
+        var array: [Double] = []
+            
+        // Get length
+        let length = mlArray.count
+        
+        // Set content of multi array to our out put array
+        for i in 0...length - 1 {
+            array.append(Double(truncating: mlArray[[0, NSNumber(value: i)]]))
+        }
+        
+        return array
+    }
+    
+    func processFacenetResults(result: MLMultiArray) -> (Bool, Double) {
+        // Euclidean Norm
+        if self.saveThisFace {
+            let doubleArray = self.convertToDoubleArray(from: result)
+            self.validFaces.append(doubleArray)
+            return (true, 0)  // Just go ahead and return 0 because the user said this face is valid.
+        }
+        
+        var minDist: Double = 1000
+        var dists: [Double] = []
+        
+        for face in self.validFaces {
+            let doubleArray = self.convertToDoubleArray(from: result)
+            var dist: Double = self.euclideanNorm(arr1: doubleArray, arr2: face)
+            dists.append(dist)
+//            print("Raw: \(doubleArray)")
+//            print("GT: \(face)")
+//            print("Dist: \(dist)")
+            if dist < minDist {
+                minDist = dist
+            }
+        }
+        
+        var avgDist: Double = 0
+        for element in dists {
+            avgDist += element
+        }
+        avgDist /= Double(dists.count)
+        
+        return (avgDist < self.minimumSimilarity, avgDist)
+    }
+    
+    func displayObservationResults(boundingBox: CGRect, positive: Bool, minDist: Float) {
+        self.boxView.boxRect = boundingBox
         DispatchQueue.main.async {
             self.boxView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+            self.boxView.color = minDist < Float(self.minimumSimilarity) ? .green : .red
             self.boxView.needsDisplay = true
         }
     }
@@ -210,9 +295,24 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         count = 0
-        performVisionRequests(on: pixelBuffer)
+        let boundingBox = performFaceLocalization(on: pixelBuffer)
+        guard let image = self.cropAndConvert(pixelBuffer: pixelBuffer, boundingBox: boundingBox) else {
+            print("Cannot crop image, skipping.")
+            return
+        }
+        let (positive, minDist) = performFaceClassification(on: image)
+        print("Positive: \(positive)")
+        print("minDist: \(minDist)")
+        self.displayObservationResults(boundingBox: boundingBox, positive: positive, minDist: minDist)
+//        print("Raw: \(minDist)")
+//        print("minDist: \(minDist * 100)%")
         DispatchQueue.global(qos: .utility).async {
             let cgImage = self.saveFullImage(pixelBuffer: pixelBuffer)
         }
+    }
+    func cropAndConvert(pixelBuffer: CVPixelBuffer, boundingBox: CGRect) -> CGImage? {
+        let cgImage = self.createCGImage(from: pixelBuffer, save: false, boundingBox: boundingBox)
+        guard let croppedImage = cgImage?.cropping(to: boundingBox) else { return nil }
+        return croppedImage
     }
 }
