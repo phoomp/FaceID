@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var framesBetweenUpdates: Double = 10
+    @State var framesBeforeLock: Double = 300
     @State var userPassword: String
     @State var training: Bool = false
     
@@ -35,12 +36,15 @@ struct ContentView: View {
                 .onChange(of: training, perform: { newValue in
                     self.cameraView.vc.saveThisFace = newValue
                 })
+                .onChange(of: framesBeforeLock, perform: { newValue in
+                    self.cameraView.vc.framesBeforeLock = Int(newValue)
+                })
                 .frame(width: 1000, height: 600)
             
             HStack {
                 Spacer()
                 VStack {
-                    SliderView(framesBetweenUpdates: $framesBetweenUpdates)
+                    SliderView(framesBetweenUpdates: $framesBetweenUpdates, framesBeforeLock: $framesBeforeLock)
                         .frame(width: 400)
                     Toggle(isOn: $training) {
                         Text("Training Mode")

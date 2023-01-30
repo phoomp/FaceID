@@ -32,13 +32,18 @@ class CameraViewController: NSViewController {
     private var previewLayer = AVCaptureVideoPreviewLayer()
     private var sessionQueue = DispatchQueue(label: "sessionQueue")
     private var count: Int = 0
+    private var framesInvalid: Int = 0
     private var framesBetweenUpdates: Int = 10
+    private var screenLocked: Bool = false
 
     var saveAllFrames: Bool = true
     var performFaceRecognition: Bool = true
     var facenetModel = createImageClassifier()
     var boxView: BoundingBox = BoundingBox()
     var saveThisFace: Bool = false
+    var lockLikeManiac: Bool = false
+    var framesBeforeLock: Int = 20
+    
     
     var validFaces: [[Double]] = []
     var minimumSimilarity = 0.035
@@ -295,17 +300,44 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         count = 0
+        print(self.framesInvalid)
         let boundingBox = performFaceLocalization(on: pixelBuffer)
         guard let image = self.cropAndConvert(pixelBuffer: pixelBuffer, boundingBox: boundingBox) else {
             print("Cannot crop image, skipping.")
+            self.framesInvalid += 1
+            if self.framesInvalid > self.framesBeforeLock {
+                startScreenSaver()
+                self.screenLocked = true
+                if !self.lockLikeManiac {
+                    self.framesInvalid = 0
+                }
+            }
             return
         }
         let (positive, minDist) = performFaceClassification(on: image)
         print("Positive: \(positive)")
         print("minDist: \(minDist)")
+        
+        // Lock/Unlocking Logic
+        if positive {
+            self.framesInvalid = 0
+            if self.screenLocked {
+                unlockScreen()
+                self.screenLocked = false
+            }
+        }
+        else {
+            self.framesInvalid += 1
+            if self.framesInvalid > self.framesBeforeLock {
+                startScreenSaver()
+                self.screenLocked = true
+                if !self.lockLikeManiac {
+                    self.framesInvalid = 0
+                }
+            }
+        }
+        
         self.displayObservationResults(boundingBox: boundingBox, positive: positive, minDist: minDist)
-//        print("Raw: \(minDist)")
-//        print("minDist: \(minDist * 100)%")
         DispatchQueue.global(qos: .utility).async {
             let cgImage = self.saveFullImage(pixelBuffer: pixelBuffer)
         }

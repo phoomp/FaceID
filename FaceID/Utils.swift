@@ -40,7 +40,6 @@ public func writeUnlockScript(password: String) throws {
     }
     
     let stringToWrite: String = """
-        delay 3
         tell application "System Events" to key code 53
         delay 0.1
         tell application "System Events" to keystroke return
