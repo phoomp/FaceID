@@ -80,7 +80,8 @@ public func unlockScreen() {
 public func createImageClassifier() -> VNCoreMLModel? {
     // Use a default model configuration
     let defaultConfig = MLModelConfiguration()
-    defaultConfig.computeUnits = .cpuAndGPU
+    defaultConfig.computeUnits = .all
+//    defaultConfig.
     
     // Create an instance of the image classifier's wrapper class
     let imageClassifierWrapper = try? FaceNet3(configuration: defaultConfig)
