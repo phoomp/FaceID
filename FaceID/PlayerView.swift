@@ -96,7 +96,7 @@ class CameraViewController: NSViewController {
         print("width: \(String(describing: screenRect?.width)), height: \(String(describing: screenRect?.height))")
         
         previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
-        previewLayer.videoGravity = .resizeAspectFill
+        previewLayer.videoGravity = .resize
         self.captureSession.commitConfiguration()
         
         // Connect previewLayer and face frame
@@ -139,31 +139,40 @@ class CameraViewController: NSViewController {
         }
     }
     
-    func performFaceLocalization(on pixelBuffer: CVPixelBuffer) -> CGRect {
+    func performFaceLocalization(on pixelBuffer: CVPixelBuffer) -> [(CGRect, VNFaceLandmarks2D)] {
         let imageSequenceHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
-        var boundingBox: CGRect = CGRect()
-        var resultBuffer: CVPixelBuffer?
+        var allResults: [(CGRect, VNFaceLandmarks2D)] = []
         
-        let detectedFaceRequest = VNDetectFaceRectanglesRequest { request, error in
-            guard let results = request.results as? [VNFaceObservation],
-                  let result = results.first
-            else {
+        let faceLandmarkRequest = VNDetectFaceLandmarksRequest { request, error in
+            guard let results = request.results as? [VNFaceObservation] else {
                 return
             }
-            boundingBox = result.boundingBox
+            for result in results {
+                allResults.append((result.boundingBox, result.landmarks!))
+                print("Confidence: \(result.landmarks!.confidence)")
+            }
         }
         
+//        let detectedFaceRequest = VNDetectFaceRectanglesRequest { request, error in
+//            guard let results = request.results as? [VNFaceObservation],
+//                  let result = results.first
+//            else {
+//                return
+//            }
+//            boundingBox = result.boundingBox
+//        }
+        
         do {
-            try imageSequenceHandler.perform([detectedFaceRequest])
+            try imageSequenceHandler.perform([faceLandmarkRequest])
         } catch {
             print("Vision request error")
             print(error.localizedDescription)
         }
         
-        return boundingBox
+        return allResults
     }
     
-    func performFaceClassification(on image: CGImage) -> (Bool, Float) {
+    func performFaceNetClassification(on image: CGImage) -> (Bool, Float) {
         let handler = VNImageRequestHandler(cgImage: image, orientation: .up)
         var positive: Bool = false
         var minDist: Double = 1000
@@ -194,6 +203,15 @@ class CameraViewController: NSViewController {
         }
         
         return sumBeforeRoot.squareRoot()
+    }
+    
+    func getLandmarkDistance(on landmark: VNFaceLandmarks2D) {
+        if self.saveThisFace {
+            let allPoints = landmark.allPoints!.normalizedPoints
+            for point in allPoints {
+                point
+            }
+        }
     }
     
     func convertToDoubleArray(from mlArray: MLMultiArray) -> [Double] {
@@ -242,11 +260,19 @@ class CameraViewController: NSViewController {
         return (avgDist < self.minimumSimilarity, avgDist)
     }
     
-    func displayObservationResults(boundingBox: CGRect, positive: Bool, minDist: Float) {
-        self.boxView.boxRect = boundingBox
+    func displayObservationResults(boundingBoxes: [CGRect], landmarks: [VNFaceLandmarks2D], positives: [Bool], minDists: [Float]) {
+        self.boxView.boxRects = boundingBoxes
+        self.boxView.landmarks = landmarks
         DispatchQueue.main.async {
             self.boxView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-            self.boxView.color = minDist < Float(self.minimumSimilarity) ? .green : .red
+            for minDist in minDists {
+                if minDist < Float(self.minimumSimilarity) {
+                    self.boxView.colors.append(.green)
+                }
+                else {
+                    self.boxView.colors.append(.red)
+                }
+            }
             self.boxView.needsDisplay = true
         }
     }
@@ -300,47 +326,75 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         count = 0
-        print(self.framesInvalid)
-        let boundingBox = performFaceLocalization(on: pixelBuffer)
-        guard let image = self.cropAndConvert(pixelBuffer: pixelBuffer, boundingBox: boundingBox) else {
-            print("Cannot crop image, skipping.")
-            self.framesInvalid += 1
-            if self.framesInvalid > self.framesBeforeLock {
-                startScreenSaver()
-                self.screenLocked = true
-                if !self.lockLikeManiac {
-                    self.framesInvalid = 0
+//        self.processWithFaceNet(on: pixelBuffer)
+        self.processWithVision(on: pixelBuffer)
+    }
+    
+    func processWithVision(on pixelBuffer: CVPixelBuffer) {
+        let results = performFaceLocalization(on: pixelBuffer)
+        
+        for result in results {
+            let boundingBox = result.0
+            let landmarks = result.1
+        }
+    }
+    
+    func processWithFaceNet(on pixelBuffer: CVPixelBuffer) {
+        let results = performFaceLocalization(on: pixelBuffer)
+        var boundingBoxes: [CGRect] = []
+        var positives: [Bool] = []
+        var minDists: [Float] = []
+        var landmarks: [VNFaceLandmarks2D] = []
+        
+        for result in results {
+            let boundingBox = result.0
+            let landmark = result.1
+            boundingBoxes.append(boundingBox)
+            landmarks.append(landmark)
+            
+            guard let image = self.cropAndConvert(pixelBuffer: pixelBuffer, boundingBox: boundingBox) else {
+    //            print("Cannot crop image, skipping.")
+                if self.framesInvalid > self.framesBeforeLock {
+                    startScreenSaver()
+                    self.screenLocked = true
+                    if !self.lockLikeManiac {
+                        self.framesInvalid = 0
+                    }
+                }
+                return
+            }
+            let (positive, minDist) = performFaceNetClassification(on: image)
+//            print("Positive: \(positive)")
+//            print("minDist: \(minDist)")
+            
+            positives.append(positive)
+            minDists.append(minDist)
+            
+            // Lock/Unlocking Logic
+            if positive {
+                self.framesInvalid = 0
+                if self.screenLocked {
+                    unlockScreen()
+                    self.screenLocked = false
                 }
             }
-            return
         }
-        let (positive, minDist) = performFaceClassification(on: image)
-        print("Positive: \(positive)")
-        print("minDist: \(minDist)")
-        
-        // Lock/Unlocking Logic
-        if positive {
-            self.framesInvalid = 0
-            if self.screenLocked {
-                unlockScreen()
-                self.screenLocked = false
-            }
-        }
-        else {
-            self.framesInvalid += 1
-            if self.framesInvalid > self.framesBeforeLock {
-                startScreenSaver()
-                self.screenLocked = true
-                if !self.lockLikeManiac {
-                    self.framesInvalid = 0
-                }
-            }
-        }
-        
-        self.displayObservationResults(boundingBox: boundingBox, positive: positive, minDist: minDist)
+        self.displayObservationResults(boundingBoxes: boundingBoxes, landmarks: landmarks, positives: positives, minDists: minDists)
         DispatchQueue.global(qos: .utility).async {
             let cgImage = self.saveFullImage(pixelBuffer: pixelBuffer)
         }
+        
+        print("Frames invalid: \(self.framesInvalid)")
+        
+        if self.framesInvalid > self.framesBeforeLock {
+            startScreenSaver()
+            self.screenLocked = true
+            if !self.lockLikeManiac {
+                self.framesInvalid = 0
+            }
+        }
+        
+        self.framesInvalid += 1
     }
     func cropAndConvert(pixelBuffer: CVPixelBuffer, boundingBox: CGRect) -> CGImage? {
         let cgImage = self.createCGImage(from: pixelBuffer, save: false, boundingBox: boundingBox)
