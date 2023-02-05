@@ -26,6 +26,7 @@ class BoundingBox: NSView {
     override func draw(_ rect: CGRect) {
         let frame = self.frame
         let context = NSGraphicsContext.current!.cgContext
+        
         for (boxRect, (landmark, color)) in zip(boxRects, zip(landmarks, colors)) {
             let newRect = CGRect(x: boxRect.minX * frame.width, y: boxRect.minY * frame.height, width: boxRect.width * frame.width, height: boxRect.height * frame.height)
             color.setStroke()

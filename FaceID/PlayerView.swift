@@ -46,7 +46,9 @@ class CameraViewController: NSViewController {
     
     
     var validFaces: [[Double]] = []
-    var minimumSimilarity = 0.035
+//    var minimumSimilarity = 0.035
+    var minimumSimilarity = 0.2
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,7 +151,7 @@ class CameraViewController: NSViewController {
             }
             for result in results {
                 allResults.append((result.boundingBox, result.landmarks!))
-                print("Confidence: \(result.landmarks!.confidence)")
+//                print("Confidence: \(result.landmarks!.confidence)")
             }
         }
         
@@ -205,13 +207,31 @@ class CameraViewController: NSViewController {
         return sumBeforeRoot.squareRoot()
     }
     
-    func getLandmarkDistance(on landmark: VNFaceLandmarks2D) {
+    func getLandmarkDistance(on landmark: VNFaceLandmarks2D) -> Float {
+        var dist: Float = 1000
+        
+        let allPoints = landmark.allPoints!.normalizedPoints
+        var points: [Double] = []
+        for point in allPoints {
+            points.append(Double(point.x))
+            points.append(Double(point.y))
+        }
+        
         if self.saveThisFace {
-            let allPoints = landmark.allPoints!.normalizedPoints
-            for point in allPoints {
-                point
+            dist = 0
+            self.validFaces.append(points)
+        }
+        
+        else {
+            for facePoints in self.validFaces {
+                let euclideanDist = Float(self.euclideanNorm(arr1: points, arr2: facePoints))
+                if euclideanDist < dist {
+                    dist = euclideanDist
+                }
             }
         }
+        
+        return dist
     }
     
     func convertToDoubleArray(from mlArray: MLMultiArray) -> [Double] {
@@ -266,6 +286,7 @@ class CameraViewController: NSViewController {
         DispatchQueue.main.async {
             self.boxView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
             for minDist in minDists {
+                self.boxView.colors = []
                 if minDist < Float(self.minimumSimilarity) {
                     self.boxView.colors.append(.green)
                 }
@@ -333,10 +354,29 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func processWithVision(on pixelBuffer: CVPixelBuffer) {
         let results = performFaceLocalization(on: pixelBuffer)
         
+        var boundingBoxes: [CGRect] = []
+        var allLandmarks: [VNFaceLandmarks2D] = []
+        var minDists: [Float] = []
+        var valid: [Bool] = []
+        
         for result in results {
             let boundingBox = result.0
             let landmarks = result.1
+            boundingBoxes.append(boundingBox)
+            allLandmarks.append(landmarks)
+            
+            let distance = Float(self.getLandmarkDistance(on: landmarks))
+            print("Dist: \(distance)")
+            minDists.append(distance)
+            
+            if distance < Float(self.minimumSimilarity) {
+                valid.append(true)
+            } else {
+                valid.append(false)
+            }
         }
+        
+        self.displayObservationResults(boundingBoxes: boundingBoxes, landmarks: allLandmarks, positives: valid, minDists: minDists)
     }
     
     func processWithFaceNet(on pixelBuffer: CVPixelBuffer) {
