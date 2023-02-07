@@ -47,7 +47,7 @@ class CameraViewController: NSViewController {
     
     var validFaces: [[Double]] = []
 //    var minimumSimilarity = 0.035
-    var minimumSimilarity = 0.2
+    var minimumSimilarity = 0.01
     
     
     override func viewDidLoad() {
@@ -277,6 +277,8 @@ class CameraViewController: NSViewController {
         }
         avgDist /= Double(dists.count)
         
+        print("avgDist: \(avgDist)")
+        
         return (avgDist < self.minimumSimilarity, avgDist)
     }
     
@@ -347,8 +349,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         count = 0
-//        self.processWithFaceNet(on: pixelBuffer)
-        self.processWithVision(on: pixelBuffer)
+        self.processWithFaceNet(on: pixelBuffer)
+//        self.processWithVision(on: pixelBuffer)
     }
     
     func processWithVision(on pixelBuffer: CVPixelBuffer) {
@@ -389,10 +391,12 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         for result in results {
             let boundingBox = result.0
             let landmark = result.1
-            boundingBoxes.append(boundingBox)
+            let newBox = self.getExpandedBoundingBox(for: boundingBox)
+            
+            boundingBoxes.append(newBox)
             landmarks.append(landmark)
             
-            guard let image = self.cropAndConvert(pixelBuffer: pixelBuffer, boundingBox: boundingBox) else {
+            guard let image = self.cropAndConvert(pixelBuffer: pixelBuffer, boundingBox: newBox) else {
     //            print("Cannot crop image, skipping.")
                 if self.framesInvalid > self.framesBeforeLock {
                     startScreenSaver()
@@ -436,6 +440,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         self.framesInvalid += 1
     }
+    
+    func getExpandedBoundingBox(for boundingBox: CGRect) -> CGRect {
+        let zoomOutPercent = 0.1
+        
+        return CGRect(x: boundingBox.minX - boundingBox.minX * zoomOutPercent, y: boundingBox.minY - boundingBox.minY * zoomOutPercent, width: boundingBox.width + boundingBox.width * 2 * zoomOutPercent, height: boundingBox.height + boundingBox.height * 2 * zoomOutPercent)
+    }
+    
     func cropAndConvert(pixelBuffer: CVPixelBuffer, boundingBox: CGRect) -> CGImage? {
         let cgImage = self.createCGImage(from: pixelBuffer, save: false, boundingBox: boundingBox)
         guard let croppedImage = cgImage?.cropping(to: boundingBox) else { return nil }
