@@ -277,7 +277,7 @@ class CameraViewController: NSViewController {
         }
         avgDist /= Double(dists.count)
         
-        print("avgDist: \(avgDist)")
+//        print("avgDist: \(avgDist)")
         
         return (minDist < self.minimumSimilarity, minDist)
     }
@@ -428,7 +428,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             let cgImage = self.saveFullImage(pixelBuffer: pixelBuffer)
         }
         
-        print("Frames invalid: \(self.framesInvalid)")
+//        print("Frames invalid: \(self.framesInvalid)")
         
         if self.framesInvalid > self.framesBeforeLock {
             startScreenSaver()

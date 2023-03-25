@@ -23,10 +23,18 @@
 		1093281B29739744001D068B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093281A29739744001D068B /* PlayerView.swift */; };
 		109DDABA2979150F00EB319C /* MLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DDAB92979150F00EB319C /* MLConversion.swift */; };
 		109DDABC29791B0A00EB319C /* FaceNet.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 109DDABB29791B0A00EB319C /* FaceNet.mlpackage */; };
+		109FD36D29CEECE60063DC09 /* LockScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109FD36C29CEECE60063DC09 /* LockScreenView.swift */; };
+		109FD37129CEF6670063DC09 /* faceidmin.gif in Resources */ = {isa = PBXBuildFile; fileRef = 109FD37029CEF6670063DC09 /* faceidmin.gif */; };
+		109FD37329CEFE860063DC09 /* faceid.gif in Resources */ = {isa = PBXBuildFile; fileRef = 109FD37229CEFE860063DC09 /* faceid.gif */; };
 		10ACCC812987F75000817F4A /* FaceNet2.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 10ACCC802987F75000817F4A /* FaceNet2.mlpackage */; };
 		10ACCC832988329100817F4A /* FaceNet3.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 10ACCC822988329100817F4A /* FaceNet3.mlpackage */; };
 		10B7BD512977AD7B00A11929 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7BD502977AD7B00A11929 /* SliderView.swift */; };
 		10B7BD532977ADCC00A11929 /* ControlInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7BD522977ADCC00A11929 /* ControlInterface.swift */; };
+		10D0EA8D29CF405D00CEC7F7 /* faceid_transparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10D0EA8C29CF405C00CEC7F7 /* faceid_transparent.gif */; };
+		10D0EA8F29CF420E00CEC7F7 /* faceid_t.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10D0EA8E29CF420E00CEC7F7 /* faceid_t.gif */; };
+		10D0EA9129CF425E00CEC7F7 /* faceid_t2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10D0EA9029CF425E00CEC7F7 /* faceid_t2.gif */; };
+		10D0EA9329CF452900CEC7F7 /* faceid-fast.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10D0EA9229CF452900CEC7F7 /* faceid-fast.gif */; };
+		10D0EA9529CF458F00CEC7F7 /* faceid-fast2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 10D0EA9429CF458F00CEC7F7 /* faceid-fast2.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,10 +75,19 @@
 		1093281A29739744001D068B /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		109DDAB92979150F00EB319C /* MLConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLConversion.swift; sourceTree = "<group>"; };
 		109DDABB29791B0A00EB319C /* FaceNet.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; name = FaceNet.mlpackage; path = "../../faceID-Mac/FaceNet.mlpackage"; sourceTree = "<group>"; };
+		109FD36C29CEECE60063DC09 /* LockScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenView.swift; sourceTree = "<group>"; };
+		109FD37029CEF6670063DC09 /* faceidmin.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = faceidmin.gif; sourceTree = "<group>"; };
+		109FD37229CEFE860063DC09 /* faceid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = faceid.gif; path = ../../faceid.gif; sourceTree = "<group>"; };
 		10ACCC802987F75000817F4A /* FaceNet2.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = FaceNet2.mlpackage; sourceTree = "<group>"; };
 		10ACCC822988329100817F4A /* FaceNet3.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = FaceNet3.mlpackage; sourceTree = "<group>"; };
 		10B7BD502977AD7B00A11929 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		10B7BD522977ADCC00A11929 /* ControlInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlInterface.swift; sourceTree = "<group>"; };
+		10D0EA8B29CF235700CEC7F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		10D0EA8C29CF405C00CEC7F7 /* faceid_transparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = faceid_transparent.gif; sourceTree = "<group>"; };
+		10D0EA8E29CF420E00CEC7F7 /* faceid_t.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = faceid_t.gif; sourceTree = "<group>"; };
+		10D0EA9029CF425E00CEC7F7 /* faceid_t2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = faceid_t2.gif; sourceTree = "<group>"; };
+		10D0EA9229CF452900CEC7F7 /* faceid-fast.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "faceid-fast.gif"; sourceTree = "<group>"; };
+		10D0EA9429CF458F00CEC7F7 /* faceid-fast2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "faceid-fast2.gif"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,18 +138,27 @@
 		1054D49B297032D400B26BA7 /* FaceID */ = {
 			isa = PBXGroup;
 			children = (
+				10D0EA8B29CF235700CEC7F7 /* Info.plist */,
 				10B7BD542977BF2B00A11929 /* Python */,
 				1054D49C297032D400B26BA7 /* FaceIDApp.swift */,
 				1054D49E297032D400B26BA7 /* ContentView.swift */,
 				10B7BD522977ADCC00A11929 /* ControlInterface.swift */,
 				10B7BD502977AD7B00A11929 /* SliderView.swift */,
 				1093281A29739744001D068B /* PlayerView.swift */,
+				109FD36C29CEECE60063DC09 /* LockScreenView.swift */,
 				1054D4C72970354800B26BA7 /* Utils.swift */,
 				1011DDAF2977909B0057C66A /* BoundingBox.swift */,
 				10510E6D2994760A001161F7 /* FaceNet4.mlpackage */,
 				10ACCC822988329100817F4A /* FaceNet3.mlpackage */,
 				10ACCC802987F75000817F4A /* FaceNet2.mlpackage */,
 				109DDABB29791B0A00EB319C /* FaceNet.mlpackage */,
+				109FD37229CEFE860063DC09 /* faceid.gif */,
+				10D0EA9429CF458F00CEC7F7 /* faceid-fast2.gif */,
+				10D0EA9229CF452900CEC7F7 /* faceid-fast.gif */,
+				10D0EA8E29CF420E00CEC7F7 /* faceid_t.gif */,
+				10D0EA9029CF425E00CEC7F7 /* faceid_t2.gif */,
+				109FD37029CEF6670063DC09 /* faceidmin.gif */,
+				10D0EA8C29CF405C00CEC7F7 /* faceid_transparent.gif */,
 				1054D4A0297032D500B26BA7 /* Assets.xcassets */,
 				1054D4A5297032D500B26BA7 /* FaceID.entitlements */,
 				1054D4A2297032D500B26BA7 /* Preview Content */,
@@ -281,10 +307,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				1054D4A4297032D500B26BA7 /* Preview Assets.xcassets in Resources */,
+				10D0EA8F29CF420E00CEC7F7 /* faceid_t.gif in Resources */,
+				109FD37129CEF6670063DC09 /* faceidmin.gif in Resources */,
+				10D0EA9329CF452900CEC7F7 /* faceid-fast.gif in Resources */,
 				1054D4A1297032D500B26BA7 /* Assets.xcassets in Resources */,
+				10D0EA9529CF458F00CEC7F7 /* faceid-fast2.gif in Resources */,
+				10D0EA9129CF425E00CEC7F7 /* faceid_t2.gif in Resources */,
 				101DD9F12977BF6000A28ED7 /* inception_blocks_v2.py in Resources */,
 				101DD9F02977BF6000A28ED7 /* fr_utils.py in Resources */,
+				109FD37329CEFE860063DC09 /* faceid.gif in Resources */,
 				101DD9EF2977BF6000A28ED7 /* convert.py in Resources */,
+				10D0EA8D29CF405D00CEC7F7 /* faceid_transparent.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +350,7 @@
 				1093281B29739744001D068B /* PlayerView.swift in Sources */,
 				109DDABC29791B0A00EB319C /* FaceNet.mlpackage in Sources */,
 				10510E6E2994760A001161F7 /* FaceNet4.mlpackage in Sources */,
+				109FD36D29CEECE60063DC09 /* LockScreenView.swift in Sources */,
 				10ACCC832988329100817F4A /* FaceNet3.mlpackage in Sources */,
 				10B7BD532977ADCC00A11929 /* ControlInterface.swift in Sources */,
 				1054D4C82970354800B26BA7 /* Utils.swift in Sources */,
@@ -486,8 +520,10 @@
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = x86_64;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceID/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceID;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = Camera;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -522,8 +558,10 @@
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = x86_64;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceID/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceID;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = Camera;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -9,21 +9,91 @@ import Foundation
 import AppKit
 import CoreML
 import Vision
-
+import Combine
 import Cocoa
 import Accelerate
+import SwiftUI
 
 
-public func lockScreen() -> Void {
-    let libHandle = dlopen("/System/Library/PrivateFrameworks/login.framework/Versions/Current/login", RTLD_LAZY)
-    let sym = dlsym(libHandle, "SACLockScreenImmediate")
-    typealias mF = @convention(c) () -> Void
+class WindowState: ObservableObject {
+    @Published var active: Bool
     
-    let SACLockScreenImmediate = unsafeBitCast(sym, to: mF.self)
-    SACLockScreenImmediate()
+    init(active: Bool) {
+        self.active = active
+    }
+}
+
+public func lockScreen() {
+    let t = Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { t in
+        performLockScreen()
+    }
+}
+
+
+public func performLockScreen() {
+    let windowLevel = CGShieldingWindowLevel()
+    let windowRect = NSScreen.main?.frame
+    let visualEffect = NSVisualEffectView()
+    
+    var overlayWindow = NSWindow(contentRect: windowRect!, styleMask: .borderless, backing: .buffered, defer: false, screen: NSScreen.screens[0])
+    overlayWindow.level = NSWindow.Level(rawValue: NSWindow.Level.RawValue(windowLevel))
+    overlayWindow.backgroundColor = .black
+    overlayWindow.alphaValue = 0.99
+    
+    visualEffect.blendingMode = .behindWindow
+    visualEffect.state = .active
+    visualEffect.material = .fullScreenUI
+    overlayWindow.contentView = visualEffect
+    
+    var state = WindowState(active: true)
+    
+    let timer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { timer in
+        if state.active == false {
+            overlayWindow.animationBehavior = .default
+            var opacity: Double = 1
+            let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
+                if opacity > 0 {
+                    opacity -= 0.02
+                    print(opacity)
+                    overlayWindow.alphaValue = opacity
+                    overlayWindow.update()
+                }
+                else {
+                    opacityTimer.invalidate()
+                    overlayWindow.close()
+                }
+            }
+            timer.invalidate()
+        }
+    }
+        
+    let childView = NSHostingView(rootView: LockScreenView(state: state))
+    childView.setFrameSize(NSSize(width: overlayWindow.frame.width, height: overlayWindow.frame.height))
+//    childView.frame = CGRectMake(0, 0, childView.frame.width, childView.frame.height)
+    
+    overlayWindow.contentView?.addSubview(childView)
+    
+    var opacity: Double = 0
+    overlayWindow.alphaValue = 0
+    
+    let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
+        if opacity < 1 {
+            opacity += 0.02
+            print(opacity)
+            overlayWindow.alphaValue = opacity
+            overlayWindow.update()
+        }
+        else {
+            opacityTimer.invalidate()
+        }
+    }
+    overlayWindow.collectionBehavior = [.stationary, .ignoresCycle, .canJoinAllSpaces]
+    overlayWindow.makeKeyAndOrderFront(nil)
+    overlayWindow.makeMain()
 }
 
 public func startScreenSaver() {
+    return
     let url = NSURL(fileURLWithPath: "/System/Library/CoreServices/ScreenSaverEngine.app", isDirectory: true) as URL
 
     let path = "/bin"

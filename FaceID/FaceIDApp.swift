@@ -12,6 +12,7 @@ struct FaceIDApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            LockScreenView()
         }
     }
 }
