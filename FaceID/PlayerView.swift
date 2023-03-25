@@ -279,7 +279,7 @@ class CameraViewController: NSViewController {
         
         print("avgDist: \(avgDist)")
         
-        return (avgDist < self.minimumSimilarity, avgDist)
+        return (minDist < self.minimumSimilarity, minDist)
     }
     
     func displayObservationResults(boundingBoxes: [CGRect], landmarks: [VNFaceLandmarks2D], positives: [Bool], minDists: [Float]) {
@@ -442,9 +442,12 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
     
     func getExpandedBoundingBox(for boundingBox: CGRect) -> CGRect {
-        let zoomOutPercent = 0.1
+        let pct = 0.2
+        let newBox = CGRectInset(boundingBox, -CGRectGetWidth(boundingBox)*pct/2, -CGRectGetHeight(boundingBox)*pct/2);
         
-        return CGRect(x: boundingBox.minX - boundingBox.minX * zoomOutPercent, y: boundingBox.minY - boundingBox.minY * zoomOutPercent, width: boundingBox.width + boundingBox.width * 2 * zoomOutPercent, height: boundingBox.height + boundingBox.height * 2 * zoomOutPercent)
+        return newBox
+        
+//        return CGRect(x: boundingBox.minX - boundingBox.minX * zoomOutPercent, y: boundingBox.minY - boundingBox.minY * zoomOutPercent, width: boundingBox.width + boundingBox.width * 2 * zoomOutPercent, height: boundingBox.height + boundingBox.height * 2 * zoomOutPercent)
     }
     
     func cropAndConvert(pixelBuffer: CVPixelBuffer, boundingBox: CGRect) -> CGImage? {

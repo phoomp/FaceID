@@ -11,6 +11,7 @@
 		101DD9EF2977BF6000A28ED7 /* convert.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9EC2977BF6000A28ED7 /* convert.py */; };
 		101DD9F02977BF6000A28ED7 /* fr_utils.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9ED2977BF6000A28ED7 /* fr_utils.py */; };
 		101DD9F12977BF6000A28ED7 /* inception_blocks_v2.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9EE2977BF6000A28ED7 /* inception_blocks_v2.py */; };
+		10510E6E2994760A001161F7 /* FaceNet4.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 10510E6D2994760A001161F7 /* FaceNet4.mlpackage */; };
 		1054D49D297032D400B26BA7 /* FaceIDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D49C297032D400B26BA7 /* FaceIDApp.swift */; };
 		1054D49F297032D400B26BA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D49E297032D400B26BA7 /* ContentView.swift */; };
 		1054D4A1297032D500B26BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1054D4A0297032D500B26BA7 /* Assets.xcassets */; };
@@ -50,6 +51,7 @@
 		101DD9EC2977BF6000A28ED7 /* convert.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = convert.py; sourceTree = "<group>"; };
 		101DD9ED2977BF6000A28ED7 /* fr_utils.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = fr_utils.py; sourceTree = "<group>"; };
 		101DD9EE2977BF6000A28ED7 /* inception_blocks_v2.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = inception_blocks_v2.py; sourceTree = "<group>"; };
+		10510E6D2994760A001161F7 /* FaceNet4.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = FaceNet4.mlpackage; sourceTree = "<group>"; };
 		1054D499297032D400B26BA7 /* FaceID.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceID.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1054D49C297032D400B26BA7 /* FaceIDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDApp.swift; sourceTree = "<group>"; };
 		1054D49E297032D400B26BA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				1093281A29739744001D068B /* PlayerView.swift */,
 				1054D4C72970354800B26BA7 /* Utils.swift */,
 				1011DDAF2977909B0057C66A /* BoundingBox.swift */,
+				10510E6D2994760A001161F7 /* FaceNet4.mlpackage */,
 				10ACCC822988329100817F4A /* FaceNet3.mlpackage */,
 				10ACCC802987F75000817F4A /* FaceNet2.mlpackage */,
 				109DDABB29791B0A00EB319C /* FaceNet.mlpackage */,
@@ -313,6 +316,7 @@
 				109DDABA2979150F00EB319C /* MLConversion.swift in Sources */,
 				1093281B29739744001D068B /* PlayerView.swift in Sources */,
 				109DDABC29791B0A00EB319C /* FaceNet.mlpackage in Sources */,
+				10510E6E2994760A001161F7 /* FaceNet4.mlpackage in Sources */,
 				10ACCC832988329100817F4A /* FaceNet3.mlpackage in Sources */,
 				10B7BD532977ADCC00A11929 /* ControlInterface.swift in Sources */,
 				1054D4C82970354800B26BA7 /* Utils.swift in Sources */,
