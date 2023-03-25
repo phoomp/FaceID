@@ -31,14 +31,6 @@ struct LockScreenView: View {
                 Text("Use FaceID to Resume Session")
                     .font(.system(size: 80))
                     .foregroundColor(.white)
-//                Spacer()
-//                    .frame(height: 120)
-//                SecureField("Enter password", text: $password)
-//                    .overlay(
-//                        RoundedRectangle(cornerRadius: 10)
-//                    )
-//                    .frame(width: 300, height: 30)
-//                    .background(.gray.opacity(0.2))
                 
                 Button {
                     showFaceIDGif = true

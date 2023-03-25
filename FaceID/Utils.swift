@@ -25,12 +25,12 @@ class WindowState: ObservableObject {
 
 public func lockScreen() {
     let t = Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { t in
-        performLockScreen()
+        performLockScreenSequence()
     }
 }
 
 
-public func performLockScreen() {
+public func performLockScreenSequence() {
     let windowLevel = CGShieldingWindowLevel()
     let windowRect = NSScreen.main?.frame
     let visualEffect = NSVisualEffectView()
@@ -45,13 +45,13 @@ public func performLockScreen() {
     visualEffect.material = .fullScreenUI
     overlayWindow.contentView = visualEffect
     
-    var state = WindowState(active: true)
+    let state = WindowState(active: true)
     
-    let timer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { timer in
+    _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { timer in
         if state.active == false {
             overlayWindow.animationBehavior = .default
             var opacity: Double = 1
-            let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
+            _ = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
                 if opacity > 0 {
                     opacity -= 0.02
                     print(opacity)
@@ -76,7 +76,7 @@ public func performLockScreen() {
     var opacity: Double = 0
     overlayWindow.alphaValue = 0
     
-    let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
+    _ = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
         if opacity < 1 {
             opacity += 0.02
             print(opacity)
@@ -90,18 +90,6 @@ public func performLockScreen() {
     overlayWindow.collectionBehavior = [.stationary, .ignoresCycle, .canJoinAllSpaces]
     overlayWindow.makeKeyAndOrderFront(nil)
     overlayWindow.makeMain()
-}
-
-public func startScreenSaver() {
-    return
-    let url = NSURL(fileURLWithPath: "/System/Library/CoreServices/ScreenSaverEngine.app", isDirectory: true) as URL
-
-    let path = "/bin"
-    let configuration = NSWorkspace.OpenConfiguration()
-    configuration.arguments = [path]
-    NSWorkspace.shared.openApplication(at: url,
-                                       configuration: configuration,
-                                       completionHandler: nil)
 }
 
 public func writeUnlockScript(password: String) throws {
