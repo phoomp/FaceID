@@ -412,7 +412,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             if positive {
                 self.framesInvalid = 0
                 if self.screenLocked {
-                    unlockScreen()
+                    lockScreen()
                     self.screenLocked = false
                 }
             }
@@ -423,7 +423,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
                 
         if self.framesInvalid > self.framesBeforeLock {
-            startScreenSaver()
+            lockScreen()
             self.screenLocked = true
             if !self.lockLikeManiac {
                 self.framesInvalid = 0

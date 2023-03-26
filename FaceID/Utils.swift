@@ -24,7 +24,7 @@ class WindowState: ObservableObject {
 }
 
 public func lockScreen() {
-    let t = Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { t in
+    Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { t in
         performLockScreenSequence()
     }
 }
@@ -45,13 +45,13 @@ public func performLockScreenSequence() {
     visualEffect.material = .fullScreenUI
     overlayWindow.contentView = visualEffect
     
-    let state = WindowState(active: true)
+    var state = WindowState(active: true)
     
-    _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { timer in
+    let timer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { timer in
         if state.active == false {
             overlayWindow.animationBehavior = .default
             var opacity: Double = 1
-            _ = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
+            let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
                 if opacity > 0 {
                     opacity -= 0.02
                     print(opacity)
@@ -76,7 +76,7 @@ public func performLockScreenSequence() {
     var opacity: Double = 0
     overlayWindow.alphaValue = 0
     
-    _ = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
+    let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
         if opacity < 1 {
             opacity += 0.02
             print(opacity)
@@ -92,54 +92,16 @@ public func performLockScreenSequence() {
     overlayWindow.makeMain()
 }
 
-public func writeUnlockScript(password: String) throws {
-    if password.contains("\"") {
-        fatalError("Password cannot contain the character \"")
-    }
-    
-    let stringToWrite: String = """
-        tell application "System Events" to key code 53
-        delay 0.1
-        tell application "System Events" to keystroke return
-        delay 0.25
-        tell application "System Events" to keystroke "\(password)"
-        tell application "System Events" to keystroke return
-    """
-    
-    DispatchQueue.global(qos: .userInitiated).async {
-        let filename = getDocumentsDirectory().appending(path: "unlock.scpt")
-        
-        do {
-            try stringToWrite.write(to: filename, atomically: true, encoding: .utf8)
-        } catch {
-            print("Error: \(error)")
-        }
-    }
-}
 
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .applicationScriptsDirectory, in: .userDomainMask)
     return paths[0]
 }
 
-public func unlockScreen() {
-    DispatchQueue.global(qos: .userInitiated).async {
-        let task = Process()
-        let scriptPath = getDocumentsDirectory().appending(path: "unlock.scpt")
-        task.launchPath = "/usr/bin/osascript"
-        print("Running script at \(scriptPath.path(percentEncoded: false))")
-        task.arguments = [scriptPath.path(percentEncoded: false)]
-         
-        try! task.run()
-    }
-}
 
-// Facenet model definition
 public func createImageClassifier() -> VNCoreMLModel? {
-    // Use a default model configuration
     let defaultConfig = MLModelConfiguration()
     defaultConfig.computeUnits = .all
-//    defaultConfig.
     
     // Create an instance of the image classifier's wrapper class
     let imageClassifierWrapper = try? FaceNet3(configuration: defaultConfig)
@@ -164,8 +126,8 @@ public func createImageClassifier() -> VNCoreMLModel? {
     return imageClassifierVisionModel
 }
 
-// https://stackoverflow.com/questions/55287140/how-to-crop-and-flip-cvpixelbuffer-and-return-cvpixelbuffer
 
+// https://stackoverflow.com/questions/55287140/how-to-crop-and-flip-cvpixelbuffer-and-return-cvpixelbuffer
 extension CVPixelBuffer {
     func crop(to rect: CGRect) -> CVPixelBuffer? {
         CVPixelBufferLockBaseAddress(self, .readOnly)
@@ -223,60 +185,16 @@ extension UnsafeMutableRawPointer {
                 free(UnsafeMutableRawPointer(mutating: pointer))
             }
         }
-
+        
         var targetPixelBuffer: CVPixelBuffer?
         let conversionStatus = CVPixelBufferCreateWithBytes(nil, targetWith, targetHeight, pixelBufferType, self, targetImageRowBytes, releaseCallBack, nil, nil, &targetPixelBuffer)
-
+        
         guard conversionStatus == kCVReturnSuccess else {
             print("Conversion error")
             free(self)
             return nil
         }
-
+        
         return targetPixelBuffer
-    }
-}
-
-
-func normalize3(cgImage: CGImage) -> NSImage? {
-    let colorSpace = CGColorSpaceCreateDeviceRGB()
-
-    var format = vImage_CGImageFormat(bitsPerComponent: UInt32(cgImage.bitsPerComponent),
-                                      bitsPerPixel: UInt32(cgImage.bitsPerPixel),
-                                      colorSpace: Unmanaged.passRetained(colorSpace),
-                                      bitmapInfo: cgImage.bitmapInfo,
-                                      version: 0,
-                                      decode: nil,
-                                      renderingIntent: cgImage.renderingIntent)
-
-    var source = vImage_Buffer()
-    var result = vImageBuffer_InitWithCGImage(
-        &source,
-        &format,
-        nil,
-        cgImage,
-        vImage_Flags(kvImageNoFlags))
-
-    guard result == kvImageNoError else { return nil }
-
-    defer { free(source.data) }
-
-    var destination = vImage_Buffer()
-    result = vImageBuffer_Init(
-        &destination,
-        vImagePixelCount(cgImage.height),
-        vImagePixelCount(cgImage.width),
-        32,
-        vImage_Flags(kvImageNoFlags))
-
-    guard result == kvImageNoError else { return nil }
-
-    result = vImageContrastStretch_ARGB8888(&source, &destination, vImage_Flags(kvImageNoFlags))
-    guard result == kvImageNoError else { return nil }
-
-    defer { free(destination.data) }
-
-    return vImageCreateCGImageFromBuffer(&destination, &format, nil, nil, vImage_Flags(kvImageNoFlags), nil).map {
-        NSImage(cgImage: $0.takeRetainedValue(), size: NSSize(width: 96, height: 96))
     }
 }
