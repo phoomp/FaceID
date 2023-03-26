@@ -17,6 +17,7 @@ struct LockScreenView: View {
     @State var password = ""
     @State var showFaceIDGif = false
     @State var unlocked = false
+    @State var color = Color.white
     
     var gif = QLImage("faceid-fast2")
     @State var iconOffset: CGFloat = 65
@@ -43,8 +44,18 @@ struct LockScreenView: View {
                         print(state.active)
                     }
                 } label: {
-                    Text("Close Preview")
+                    Text("Correct Face")
                 }
+                
+                Button {
+                    color = .red
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        color = .white
+                    }
+                    
+                } label: {
+                    Text("Wrong Face")
+                }.disabled(color == .red)
 
             }
             VStack {
@@ -59,6 +70,8 @@ struct LockScreenView: View {
                         .frame(width: 100, height: 100)
                         .opacity(unlocked ? 0 : 1)
                         .animation(.default, value: unlocked)
+                        .foregroundColor(color)
+                        .animation(.default, value: color)
                 }
                 .padding(.top, 40)
                 .padding(.leading, iconOffset)

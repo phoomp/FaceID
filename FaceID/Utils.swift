@@ -87,7 +87,7 @@ public func performLockScreenSequence() {
             opacityTimer.invalidate()
         }
     }
-    overlayWindow.collectionBehavior = [.stationary, .ignoresCycle, .canJoinAllSpaces]
+    overlayWindow.collectionBehavior = [.stationary, .ignoresCycle, .canJoinAllSpaces, .canJoinAllApplications]
     overlayWindow.makeKeyAndOrderFront(nil)
     overlayWindow.makeMain()
 }
