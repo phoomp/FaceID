@@ -8,34 +8,20 @@
 import SwiftUI
 
 struct SliderView: View {
-    @Binding var framesBetweenUpdates: Double
-    @Binding var framesBeforeLock: Double
+    @Binding var fps: Double
     @State var isEditing: Bool = false
     
-    var minimumValue: Int = 0
-    var maximumValue: Int = 80
-    
-    var minimumLockValue: Int = 20 // 5 seconds
-    var maxmimumLockValue: Int = 300 // About 1 min
+    var minFPS: Double
+    var maxFPS: Double
     
     var body: some View {
         VStack {
-            Slider(value: $framesBetweenUpdates, in: Double(minimumValue)...Double(maximumValue), step: 5) {
-                Text("Frames Between Updates")
+            Slider(value: $fps, in: minFPS...maxFPS, step: 1) {
+                Text("Capture FPS")
             } minimumValueLabel: {
-                Text("\(minimumValue)")
+                Text("\(Int(minFPS))")
             } maximumValueLabel: {
-                Text("\(maximumValue)")
-            } onEditingChanged: { editing in
-                isEditing = editing
-            }
-            Spacer()
-            Slider(value: $framesBeforeLock, in: Double(minimumLockValue)...Double(maxmimumLockValue), step: 20) {
-                Text("Negative Frames Before Lock")
-            } minimumValueLabel: {
-                Text("\(minimumLockValue)")
-            } maximumValueLabel: {
-                Text("\(maxmimumLockValue)")
+                Text("\(Int(maxFPS))")
             } onEditingChanged: { editing in
                 isEditing = editing
             }

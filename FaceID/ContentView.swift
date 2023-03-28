@@ -9,52 +9,47 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @State var framesBetweenUpdates: Double = 10
-    @State var framesBeforeLock: Double = 300
-    @State var userPassword: String
+    @State var fps: Double
     @State var training: Bool = false
     
-    var cameraView: CameraView
+    var faceIDView: FaceIDView
+    var minFPS: Double
+    var maxFPS: Double
     
     init() {
-        self.cameraView = CameraView()
-        self.cameraView.vc.saveAllFrames = false
+        self.faceIDView = FaceIDView()
+        self.minFPS = 0
+        self.maxFPS = 0
         
-        // Retrieve password if it exists
-        self.userPassword = UserDefaults.standard.string(forKey: "userPassword") ?? ""
-        if self.userPassword != "" {
-            print("Recovered password: \(self.userPassword)")
+        while self.minFPS == 0 && self.maxFPS == 0 {
+            (self.minFPS, self.maxFPS) = self.faceIDView.vc.getMinMaxFPS()
         }
+        
+        self.fps = UserDefaults.standard.double(forKey: "fps")
+        self.faceIDView.vc.fps = self.fps
     }
     
     var body: some View {
         VStack {
-            self.cameraView
-                .onChange(of: framesBetweenUpdates) { newValue in
-                    self.cameraView.vc.set(framesBetweenUpdates: Int(newValue))
+            self.faceIDView
+                .onChange(of: fps) { newValue in
+                    self.faceIDView.vc.fps = newValue
+                    UserDefaults.standard.set(newValue, forKey: "fps")
+                    print("FPS changed to \(newValue)")
                 }
                 .onChange(of: training, perform: { newValue in
-                    self.cameraView.vc.saveThisFace = newValue
-                })
-                .onChange(of: framesBeforeLock, perform: { newValue in
-                    self.cameraView.vc.framesBeforeLock = Int(newValue)
+                    self.faceIDView.vc.training = newValue
                 })
                 .frame(width: 1000, height: 600)
             
             HStack {
                 Spacer()
                 VStack {
-                    SliderView(framesBetweenUpdates: $framesBetweenUpdates, framesBeforeLock: $framesBeforeLock)
-                        .frame(width: 400)
+                    SliderView(fps: $fps, minFPS: minFPS, maxFPS: maxFPS)
+                        .frame(width: 800)
                     Toggle(isOn: $training) {
                         Text("Training Mode")
                     }
-                }
-                .padding()
-                Spacer()
-                VStack(alignment: .leading) {
-                    ControlInterface(userPassword: $userPassword)
-                        .frame(width: 400)
                 }
                 .padding()
                 Spacer()

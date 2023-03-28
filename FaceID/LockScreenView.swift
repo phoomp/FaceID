@@ -32,6 +32,7 @@ struct LockScreenView: View {
                 Text("Use FaceID to Resume Session")
                     .font(.system(size: 80))
                     .foregroundColor(.white)
+                    .opacity(0)
                 
                 Button {
                     showFaceIDGif = true
@@ -68,10 +69,10 @@ struct LockScreenView: View {
                     Image(systemName: "faceid")
                         .resizable()
                         .frame(width: 100, height: 100)
-                        .opacity(unlocked ? 0 : 1)
                         .animation(.default, value: unlocked)
                         .foregroundColor(color)
                         .animation(.default, value: color)
+                        .opacity(unlocked ? 0 : 1)
                 }
                 .padding(.top, 40)
                 .padding(.leading, iconOffset)
@@ -120,7 +121,7 @@ struct QLImage: NSViewRepresentable {
     func updateNSView(_ nsView: QLPreviewView, context: NSViewRepresentableContext<QLImage>) {
         guard let url = Bundle.main.url(forResource: name, withExtension: "gif")
         else {
-            let _ = print("Cannot get image \(name)")
+            let _ = print("Cannot get image \(name), skipping animation")
             return
         }
         nsView.previewItem = url as QLPreviewItem

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1002FBA129D0330A004EF517 /* FaceIDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1002FBA029D0330A004EF517 /* FaceIDView.swift */; };
+		1002FBAB29D06EFF004EF517 /* arcface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1002FBAA29D06EFF004EF517 /* arcface.swift */; };
 		1011DDB02977909B0057C66A /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1011DDAF2977909B0057C66A /* BoundingBox.swift */; };
 		101DD9EF2977BF6000A28ED7 /* convert.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9EC2977BF6000A28ED7 /* convert.py */; };
 		101DD9F02977BF6000A28ED7 /* fr_utils.py in Resources */ = {isa = PBXBuildFile; fileRef = 101DD9ED2977BF6000A28ED7 /* fr_utils.py */; };
@@ -20,9 +22,18 @@
 		1054D4B9297032D500B26BA7 /* FaceIDUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D4B8297032D500B26BA7 /* FaceIDUITests.swift */; };
 		1054D4BB297032D500B26BA7 /* FaceIDUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D4BA297032D500B26BA7 /* FaceIDUITestsLaunchTests.swift */; };
 		1054D4C82970354800B26BA7 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1054D4C72970354800B26BA7 /* Utils.swift */; };
+		10694E0029D31FC3001BB69D /* AVCaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10694DFF29D31FC3001BB69D /* AVCaptureDevice.swift */; };
+		10694E0229D33BBD001BB69D /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10694E0129D33BBD001BB69D /* CaptureSession.swift */; };
+		10694E0529D33C8A001BB69D /* FaceRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10694E0429D33C8A001BB69D /* FaceRecognition.swift */; };
+		106C264229D119A300C8F97B /* PointSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106C264129D119A300C8F97B /* PointSet.swift */; };
+		106EFD1429D34E6100992520 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 106EFD1329D34E6100992520 /* GoogleService-Info.plist */; };
+		106EFD1729D34ED000992520 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1629D34ED000992520 /* FirebaseDatabase */; };
+		106EFD1929D34ED000992520 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1829D34ED000992520 /* FirebaseDatabaseSwift */; };
+		106EFD1B29D34ED000992520 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1A29D34ED000992520 /* FirebaseFirestore */; };
+		106EFD1D29D34ED000992520 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1C29D34ED000992520 /* FirebaseFirestoreCombine-Community */; };
+		106EFD1F29D34ED000992520 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1E29D34ED000992520 /* FirebaseFirestoreSwift */; };
 		1093281B29739744001D068B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093281A29739744001D068B /* PlayerView.swift */; };
 		109DDABA2979150F00EB319C /* MLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DDAB92979150F00EB319C /* MLConversion.swift */; };
-		109DDABC29791B0A00EB319C /* FaceNet.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 109DDABB29791B0A00EB319C /* FaceNet.mlpackage */; };
 		109FD36D29CEECE60063DC09 /* LockScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109FD36C29CEECE60063DC09 /* LockScreenView.swift */; };
 		109FD37129CEF6670063DC09 /* faceidmin.gif in Resources */ = {isa = PBXBuildFile; fileRef = 109FD37029CEF6670063DC09 /* faceidmin.gif */; };
 		109FD37329CEFE860063DC09 /* faceid.gif in Resources */ = {isa = PBXBuildFile; fileRef = 109FD37229CEFE860063DC09 /* faceid.gif */; };
@@ -55,6 +66,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1002FBA029D0330A004EF517 /* FaceIDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDView.swift; sourceTree = "<group>"; };
+		1002FBA329D06E93004EF517 /* faceid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = faceid.gif; sourceTree = "<group>"; };
+		1002FBA429D06E9B004EF517 /* faceid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = faceid.gif; path = ../../../faceid.gif; sourceTree = "<group>"; };
+		1002FBA729D06EB5004EF517 /* FaceNet.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = FaceNet.mlpackage; sourceTree = "<group>"; };
+		1002FBA829D06EB7004EF517 /* FaceNet.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; name = FaceNet.mlpackage; path = "../../../faceID-Mac/FaceNet.mlpackage"; sourceTree = "<group>"; };
+		1002FBAA29D06EFF004EF517 /* arcface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = arcface.swift; sourceTree = "<group>"; };
 		1011DDAF2977909B0057C66A /* BoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundingBox.swift; sourceTree = "<group>"; };
 		101DD9EC2977BF6000A28ED7 /* convert.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = convert.py; sourceTree = "<group>"; };
 		101DD9ED2977BF6000A28ED7 /* fr_utils.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = fr_utils.py; sourceTree = "<group>"; };
@@ -72,9 +89,13 @@
 		1054D4B8297032D500B26BA7 /* FaceIDUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDUITests.swift; sourceTree = "<group>"; };
 		1054D4BA297032D500B26BA7 /* FaceIDUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1054D4C72970354800B26BA7 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		10694DFF29D31FC3001BB69D /* AVCaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureDevice.swift; sourceTree = "<group>"; };
+		10694E0129D33BBD001BB69D /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
+		10694E0429D33C8A001BB69D /* FaceRecognition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognition.swift; sourceTree = "<group>"; };
+		106C264129D119A300C8F97B /* PointSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSet.swift; sourceTree = "<group>"; };
+		106EFD1329D34E6100992520 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1093281A29739744001D068B /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		109DDAB92979150F00EB319C /* MLConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLConversion.swift; sourceTree = "<group>"; };
-		109DDABB29791B0A00EB319C /* FaceNet.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; name = FaceNet.mlpackage; path = "../../faceID-Mac/FaceNet.mlpackage"; sourceTree = "<group>"; };
 		109FD36C29CEECE60063DC09 /* LockScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenView.swift; sourceTree = "<group>"; };
 		109FD37029CEF6670063DC09 /* faceidmin.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = faceidmin.gif; sourceTree = "<group>"; };
 		109FD37229CEFE860063DC09 /* faceid.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = faceid.gif; path = ../../faceid.gif; sourceTree = "<group>"; };
@@ -95,6 +116,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				106EFD1F29D34ED000992520 /* FirebaseFirestoreSwift in Frameworks */,
+				106EFD1929D34ED000992520 /* FirebaseDatabaseSwift in Frameworks */,
+				106EFD1D29D34ED000992520 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				106EFD1729D34ED000992520 /* FirebaseDatabase in Frameworks */,
+				106EFD1B29D34ED000992520 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +141,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1002FBA229D06E81004EF517 /* FaceIDGIFs */ = {
+			isa = PBXGroup;
+			children = (
+				1002FBA329D06E93004EF517 /* faceid.gif */,
+				1002FBA429D06E9B004EF517 /* faceid.gif */,
+				10D0EA9429CF458F00CEC7F7 /* faceid-fast2.gif */,
+				10D0EA9229CF452900CEC7F7 /* faceid-fast.gif */,
+				10D0EA8E29CF420E00CEC7F7 /* faceid_t.gif */,
+				10D0EA9029CF425E00CEC7F7 /* faceid_t2.gif */,
+				109FD37029CEF6670063DC09 /* faceidmin.gif */,
+				10D0EA8C29CF405C00CEC7F7 /* faceid_transparent.gif */,
+			);
+			path = FaceIDGIFs;
+			sourceTree = "<group>";
+		};
+		1002FBA629D06EAD004EF517 /* FaceNetModels */ = {
+			isa = PBXGroup;
+			children = (
+				1002FBA829D06EB7004EF517 /* FaceNet.mlpackage */,
+				10510E6D2994760A001161F7 /* FaceNet4.mlpackage */,
+				10ACCC822988329100817F4A /* FaceNet3.mlpackage */,
+				10ACCC802987F75000817F4A /* FaceNet2.mlpackage */,
+				1002FBA729D06EB5004EF517 /* FaceNet.mlpackage */,
+			);
+			path = FaceNetModels;
+			sourceTree = "<group>";
+		};
+		1002FBA929D06EDD004EF517 /* InsightFace */ = {
+			isa = PBXGroup;
+			children = (
+				1002FBAA29D06EFF004EF517 /* arcface.swift */,
+			);
+			path = InsightFace;
+			sourceTree = "<group>";
+		};
 		1054D490297032D400B26BA7 = {
 			isa = PBXGroup;
 			children = (
@@ -148,21 +209,18 @@
 				109FD36C29CEECE60063DC09 /* LockScreenView.swift */,
 				1054D4C72970354800B26BA7 /* Utils.swift */,
 				1011DDAF2977909B0057C66A /* BoundingBox.swift */,
-				10510E6D2994760A001161F7 /* FaceNet4.mlpackage */,
-				10ACCC822988329100817F4A /* FaceNet3.mlpackage */,
-				10ACCC802987F75000817F4A /* FaceNet2.mlpackage */,
-				109DDABB29791B0A00EB319C /* FaceNet.mlpackage */,
+				1002FBA229D06E81004EF517 /* FaceIDGIFs */,
+				1002FBA629D06EAD004EF517 /* FaceNetModels */,
 				109FD37229CEFE860063DC09 /* faceid.gif */,
-				10D0EA9429CF458F00CEC7F7 /* faceid-fast2.gif */,
-				10D0EA9229CF452900CEC7F7 /* faceid-fast.gif */,
-				10D0EA8E29CF420E00CEC7F7 /* faceid_t.gif */,
-				10D0EA9029CF425E00CEC7F7 /* faceid_t2.gif */,
-				109FD37029CEF6670063DC09 /* faceidmin.gif */,
-				10D0EA8C29CF405C00CEC7F7 /* faceid_transparent.gif */,
 				1054D4A0297032D500B26BA7 /* Assets.xcassets */,
+				106EFD1329D34E6100992520 /* GoogleService-Info.plist */,
+				10694DFF29D31FC3001BB69D /* AVCaptureDevice.swift */,
 				1054D4A5297032D500B26BA7 /* FaceID.entitlements */,
 				1054D4A2297032D500B26BA7 /* Preview Content */,
 				109DDAB92979150F00EB319C /* MLConversion.swift */,
+				10694E0329D33C79001BB69D /* FaceIDView */,
+				106C264129D119A300C8F97B /* PointSet.swift */,
+				1002FBA929D06EDD004EF517 /* InsightFace */,
 			);
 			path = FaceID;
 			sourceTree = "<group>";
@@ -192,6 +250,16 @@
 			path = FaceIDUITests;
 			sourceTree = "<group>";
 		};
+		10694E0329D33C79001BB69D /* FaceIDView */ = {
+			isa = PBXGroup;
+			children = (
+				1002FBA029D0330A004EF517 /* FaceIDView.swift */,
+				10694E0129D33BBD001BB69D /* CaptureSession.swift */,
+				10694E0429D33C8A001BB69D /* FaceRecognition.swift */,
+			);
+			path = FaceIDView;
+			sourceTree = "<group>";
+		};
 		10B7BD542977BF2B00A11929 /* Python */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +286,13 @@
 			dependencies = (
 			);
 			name = FaceID;
+			packageProductDependencies = (
+				106EFD1629D34ED000992520 /* FirebaseDatabase */,
+				106EFD1829D34ED000992520 /* FirebaseDatabaseSwift */,
+				106EFD1A29D34ED000992520 /* FirebaseFirestore */,
+				106EFD1C29D34ED000992520 /* FirebaseFirestoreCombine-Community */,
+				106EFD1E29D34ED000992520 /* FirebaseFirestoreSwift */,
+			);
 			productName = FaceID;
 			productReference = 1054D499297032D400B26BA7 /* FaceID.app */;
 			productType = "com.apple.product-type.application";
@@ -290,6 +365,10 @@
 				Base,
 			);
 			mainGroup = 1054D490297032D400B26BA7;
+			packageReferences = (
+				1002FB9D29D03259004EF517 /* XCRemoteSwiftPackageReference "PythonKit" */,
+				106EFD1529D34ED000992520 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 1054D49A297032D400B26BA7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -313,6 +392,7 @@
 				1054D4A1297032D500B26BA7 /* Assets.xcassets in Resources */,
 				10D0EA9529CF458F00CEC7F7 /* faceid-fast2.gif in Resources */,
 				10D0EA9129CF425E00CEC7F7 /* faceid_t2.gif in Resources */,
+				106EFD1429D34E6100992520 /* GoogleService-Info.plist in Resources */,
 				101DD9F12977BF6000A28ED7 /* inception_blocks_v2.py in Resources */,
 				101DD9F02977BF6000A28ED7 /* fr_utils.py in Resources */,
 				109FD37329CEFE860063DC09 /* faceid.gif in Resources */,
@@ -343,18 +423,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				1054D49F297032D400B26BA7 /* ContentView.swift in Sources */,
+				1002FBAB29D06EFF004EF517 /* arcface.swift in Sources */,
 				10ACCC812987F75000817F4A /* FaceNet2.mlpackage in Sources */,
 				1054D49D297032D400B26BA7 /* FaceIDApp.swift in Sources */,
 				1011DDB02977909B0057C66A /* BoundingBox.swift in Sources */,
+				1002FBA129D0330A004EF517 /* FaceIDView.swift in Sources */,
 				109DDABA2979150F00EB319C /* MLConversion.swift in Sources */,
 				1093281B29739744001D068B /* PlayerView.swift in Sources */,
-				109DDABC29791B0A00EB319C /* FaceNet.mlpackage in Sources */,
+				10694E0229D33BBD001BB69D /* CaptureSession.swift in Sources */,
 				10510E6E2994760A001161F7 /* FaceNet4.mlpackage in Sources */,
 				109FD36D29CEECE60063DC09 /* LockScreenView.swift in Sources */,
 				10ACCC832988329100817F4A /* FaceNet3.mlpackage in Sources */,
+				10694E0529D33C8A001BB69D /* FaceRecognition.swift in Sources */,
+				10694E0029D31FC3001BB69D /* AVCaptureDevice.swift in Sources */,
 				10B7BD532977ADCC00A11929 /* ControlInterface.swift in Sources */,
 				1054D4C82970354800B26BA7 /* Utils.swift in Sources */,
 				10B7BD512977AD7B00A11929 /* SliderView.swift in Sources */,
+				106C264229D119A300C8F97B /* PointSet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,7 +608,7 @@
 				INFOPLIST_FILE = FaceID/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceID;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_LSUIElement = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = Camera;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -561,7 +646,7 @@
 				INFOPLIST_FILE = FaceID/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceID;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_LSUIElement = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = Camera;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -691,6 +776,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1002FB9D29D03259004EF517 /* XCRemoteSwiftPackageReference "PythonKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pvieito/PythonKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		106EFD1529D34ED000992520 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		106EFD1629D34ED000992520 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 106EFD1529D34ED000992520 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		106EFD1829D34ED000992520 /* FirebaseDatabaseSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 106EFD1529D34ED000992520 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabaseSwift;
+		};
+		106EFD1A29D34ED000992520 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 106EFD1529D34ED000992520 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		106EFD1C29D34ED000992520 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 106EFD1529D34ED000992520 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		106EFD1E29D34ED000992520 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 106EFD1529D34ED000992520 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1054D491297032D400B26BA7 /* Project object */;
 }

@@ -54,7 +54,6 @@ public func performLockScreenSequence() {
             let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
                 if opacity > 0 {
                     opacity -= 0.02
-                    print(opacity)
                     overlayWindow.alphaValue = opacity
                     overlayWindow.update()
                 }
@@ -79,7 +78,6 @@ public func performLockScreenSequence() {
     let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
         if opacity < 1 {
             opacity += 0.02
-            print(opacity)
             overlayWindow.alphaValue = opacity
             overlayWindow.update()
         }
