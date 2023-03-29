@@ -30,23 +30,47 @@ class FaceIDViewController: NSViewController {
     var previewLayer = AVCaptureVideoPreviewLayer()
     var videoDevice: AVCaptureDevice? = AVCaptureDevice.default(for: .video) ?? nil
     
+    // Lockscreen Window
+//    let windowLevel = CGShieldingWindowLevel()
+//    let windowRect = NSScreen.main?.frame
+//    let visualEffect = NSVisualEffectView()
+//    var overlayWindow = NSWindow(contentRect: windowRect!, styleMask: .borderless, backing: .buffered, defer: false, screen: NSScreen.screens[0])
+    
+    
     // Runtime data
     var setup = false
-    var validFaces: [[Double]] = []
-    var lastDists: [Double] = []
+    var validFaces: [[Double]] = [[]]
+    let threshold: Double = 1
+    var validTime: CMTime = CMTimeMake(value: 0, timescale: 1)
+    public var state = WindowState(active: false)
     
     // User-editables
-    public var training = false
+    public var training = true
     public var fps: Double = 30 {
         didSet {
             self.videoDevice?.set(frameRate: fps)
         }
     }
+    public var secsBeforeLock: Float64 = 5
+    public var secsBeforeUnlock: Float64 = 0.3
+    
+    
+//    public func setupLockScreen() {
+//        self.overlayWindow.level = NSWindow.Level(rawValue: NSWindow.Level.RawValue(windowLevel))
+//        self.overlayWindow.backgroundColor = .black
+//        self.overlayWindow.alphaValue = 0.99
+//
+//        self.visualEffect.blendingMode = .behindWindow
+//        self.visualEffect.state = .active
+//        self.visualEffect.material = .fullScreenUI
+//        self.overlayWindow.contentView = visualEffect
+//
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         checkPermission()
-
+//        setupLockScreen()
         guard self.permissionGranted else { return }
         self.setupCaptureSession()
     }

@@ -37,16 +37,75 @@ extension FaceIDViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        // immediately get and store the fps
+        let instantFPS = self.fps
+        let instantTime = CMTimeMake(value: 1, timescale: Int32(instantFPS))
+        
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         let results = self.performFaceLocalization(on: pixelBuffer)
+        let valid = evaluateResults(results: results, training: self.training)
+        let time = CMTimeGetSeconds(self.validTime)
         
-        for (box, landmarks) in results {
-            let pointSet = PointSet(facePoints: landmarks.allPoints!.normalizedPoints)
-            let dists = pointSet.calculateDistances()
-            let diff = self.euclideanNorm(arr1: dists, arr2: lastDists)
-//            print("diff: \(diff)")
-            self.lastDists = dists
+        if valid {
+            if time > 0 {
+                self.validTime = CMTimeAdd(self.validTime, instantTime)
+            } else {
+                self.validTime = CMTimeAdd(CMTimeMake(value: 0, timescale: 1), instantTime)
+            }
+        } else {
+            if time < 0 {
+                self.validTime = CMTimeSubtract(self.validTime, instantTime)
+            } else {
+                self.validTime = CMTimeSubtract(CMTimeMake(value: 0, timescale: 1), instantTime)
+            }
         }
+        
+        if time > self.secsBeforeUnlock {
+            self.validTime = CMTimeMake(value: 0, timescale: 1)
+            print("Unlock")
+            if self.state.active {
+                DispatchQueue.main.async {
+                    self.state.active = false
+                    
+                }
+            }
+        } else if time < -self.secsBeforeLock {
+            self.validTime = CMTimeMake(value: 0, timescale: 1)
+            DispatchQueue.main.async {
+                if self.state.active == false {
+                    performLockScreenSequence(state: self.state)
+                }
+                print("Locking screen!")
+            }
+        }
+        
+        print(time)
+    }
+    
+    func evaluateResults(results: [(CGRect, VNFaceLandmarks2D)], training: Bool) -> Bool {
+//        print("Training: \(training)")
+//        print("Valid faces len: \(self.validFaces.count)")
+        for (box, landmarks) in results {
+            for face in self.validFaces {
+                let pointSet = PointSet(facePoints: landmarks.allPoints!.normalizedPoints)
+                let dists = pointSet.calculateDistances()
+                
+                if training {
+//                    print("training is true")
+                    self.validFaces.append(dists)
+                    while self.validFaces.count > 100 {
+                        self.validFaces.remove(at: 0)
+                    }
+                    return true
+                }
+                
+                let diff = self.euclideanNorm(arr1: dists, arr2: face)
+                if diff < self.threshold {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     func createCGImage(from pixelBuffer: CVPixelBuffer) -> String {

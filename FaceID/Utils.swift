@@ -16,7 +16,7 @@ import SwiftUI
 
 
 class WindowState: ObservableObject {
-    @Published var active: Bool
+    @Published public var active: Bool
     
     init(active: Bool) {
         self.active = active
@@ -25,12 +25,12 @@ class WindowState: ObservableObject {
 
 public func lockScreen() {
     Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { t in
-        performLockScreenSequence()
+        performLockScreenSequence(state: WindowState(active: false))
     }
 }
 
 
-public func performLockScreenSequence() {
+func performLockScreenSequence(state: WindowState) {
     let windowLevel = CGShieldingWindowLevel()
     let windowRect = NSScreen.main?.frame
     let visualEffect = NSVisualEffectView()
@@ -45,7 +45,7 @@ public func performLockScreenSequence() {
     visualEffect.material = .fullScreenUI
     overlayWindow.contentView = visualEffect
     
-    var state = WindowState(active: true)
+    state.active = true
     
     let timer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { timer in
         if state.active == false {
@@ -59,7 +59,8 @@ public func performLockScreenSequence() {
                 }
                 else {
                     opacityTimer.invalidate()
-                    overlayWindow.close()
+//                    overlayWindow.close()
+                    overlayWindow.setIsVisible(false)
                 }
             }
             timer.invalidate()
@@ -75,7 +76,7 @@ public func performLockScreenSequence() {
     var opacity: Double = 0
     overlayWindow.alphaValue = 0
     
-    let opacityTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
+    let opacityLockTimer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { opacityTimer in
         if opacity < 1 {
             opacity += 0.02
             overlayWindow.alphaValue = opacity
@@ -87,7 +88,10 @@ public func performLockScreenSequence() {
     }
     overlayWindow.collectionBehavior = [.stationary, .ignoresCycle, .canJoinAllSpaces, .canJoinAllApplications]
     overlayWindow.makeKeyAndOrderFront(nil)
-    overlayWindow.makeMain()
+    print(overlayWindow.canBecomeKey)
+    print(overlayWindow.canBecomeMain)
+    NSApp.activate(ignoringOtherApps: true)
+//    overlayWindow.makeMain()
 }
 
 

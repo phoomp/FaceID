@@ -50,6 +50,7 @@ struct ContentView: View {
                     Toggle(isOn: $training) {
                         Text("Training Mode")
                     }
+                    ControlInterface()
                 }
                 .padding()
                 Spacer()

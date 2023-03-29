@@ -32,6 +32,7 @@
 		106EFD1B29D34ED000992520 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1A29D34ED000992520 /* FirebaseFirestore */; };
 		106EFD1D29D34ED000992520 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1C29D34ED000992520 /* FirebaseFirestoreCombine-Community */; };
 		106EFD1F29D34ED000992520 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1E29D34ED000992520 /* FirebaseFirestoreSwift */; };
+		1079E5ED29D4118E0044A27F /* LockScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1079E5EC29D4118E0044A27F /* LockScreen.swift */; };
 		1093281B29739744001D068B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093281A29739744001D068B /* PlayerView.swift */; };
 		109662C129D3EA80001EED2B /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109662C029D3EA80001EED2B /* Instance.swift */; };
 		109DDABA2979150F00EB319C /* MLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DDAB92979150F00EB319C /* MLConversion.swift */; };
@@ -95,6 +96,7 @@
 		10694E0429D33C8A001BB69D /* FaceRecognition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognition.swift; sourceTree = "<group>"; };
 		106C264129D119A300C8F97B /* PointSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSet.swift; sourceTree = "<group>"; };
 		106EFD1329D34E6100992520 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1079E5EC29D4118E0044A27F /* LockScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreen.swift; sourceTree = "<group>"; };
 		1093281A29739744001D068B /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		109662C029D3EA80001EED2B /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
 		109DDAB92979150F00EB319C /* MLConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLConversion.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				1002FBA029D0330A004EF517 /* FaceIDView.swift */,
 				10694E0129D33BBD001BB69D /* CaptureSession.swift */,
 				10694E0429D33C8A001BB69D /* FaceRecognition.swift */,
+				1079E5EC29D4118E0044A27F /* LockScreen.swift */,
 			);
 			path = FaceIDView;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				10694E0529D33C8A001BB69D /* FaceRecognition.swift in Sources */,
 				10694E0029D31FC3001BB69D /* AVCaptureDevice.swift in Sources */,
 				10B7BD532977ADCC00A11929 /* ControlInterface.swift in Sources */,
+				1079E5ED29D4118E0044A27F /* LockScreen.swift in Sources */,
 				1054D4C82970354800B26BA7 /* Utils.swift in Sources */,
 				10B7BD512977AD7B00A11929 /* SliderView.swift in Sources */,
 				106C264229D119A300C8F97B /* PointSet.swift in Sources */,
@@ -620,7 +624,7 @@
 				INFOPLIST_FILE = FaceID/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceID;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSUIElement = NO;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = Camera;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -658,7 +662,7 @@
 				INFOPLIST_FILE = FaceID/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceID;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSUIElement = NO;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = Camera;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (

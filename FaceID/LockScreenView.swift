@@ -34,29 +34,20 @@ struct LockScreenView: View {
                     .foregroundColor(.white)
                     .opacity(0)
                 
-                Button {
-                    showFaceIDGif = true
-                    gif.preview.refreshPreviewItem()
-                    unlocked = true
-                    iconOffset = 0
-                    let timer = Timer.scheduledTimer(withTimeInterval: 0.9, repeats: false) { timer in
-                        showFaceIDGif = false
-                        state.active = false
-                        print(state.active)
-                    }
-                } label: {
-                    Text("Correct Face")
-                }
-                
-                Button {
-                    color = .red
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        color = .white
-                    }
-                    
-                } label: {
-                    Text("Wrong Face")
-                }.disabled(color == .red)
+//                Button {
+//                    self.performUnlock()
+//                } label: {
+//                    Text("Correct Face")
+//                }
+//
+//                Button {
+//                    color = .red
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                        color = .white
+//                    }
+//                } label: {
+//                    Text("Wrong Face")
+//                }.disabled(color == .red)
 
             }
             VStack {
@@ -79,6 +70,20 @@ struct LockScreenView: View {
                 .animation(.default, value: iconOffset)
                 Spacer()
             }
+        }.onChange(of: state.active) { newValue in
+            if !newValue {
+                performUnlock()
+            }
+        }
+    }
+    
+    private func performUnlock() {
+        showFaceIDGif = true
+        gif.preview.refreshPreviewItem()
+        unlocked = true
+        iconOffset = 0
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.9, repeats: false) { timer in
+            showFaceIDGif = false
         }
     }
 }

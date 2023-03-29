@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ControlInterface: View {
-    @Binding var userPassword: String
     @State var justSaved: Bool = false
     
     var body: some View {
@@ -24,9 +23,9 @@ struct ControlInterface: View {
         }
     }
 }
-
-struct ControlInterface_Previews: PreviewProvider {
-    static var previews: some View {
-        ControlInterface(userPassword: .constant("password"))
-    }
-}
+//
+//struct ControlInterface_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ControlInterface(userPassword: .constant("password"))
+//    }
+//}
