@@ -218,6 +218,7 @@
 				1054D4A5297032D500B26BA7 /* FaceID.entitlements */,
 				1054D4A2297032D500B26BA7 /* Preview Content */,
 				109DDAB92979150F00EB319C /* MLConversion.swift */,
+				109662BF29D3E5D8001EED2B /* Firebase */,
 				10694E0329D33C79001BB69D /* FaceIDView */,
 				106C264129D119A300C8F97B /* PointSet.swift */,
 				1002FBA929D06EDD004EF517 /* InsightFace */,
@@ -258,6 +259,13 @@
 				10694E0429D33C8A001BB69D /* FaceRecognition.swift */,
 			);
 			path = FaceIDView;
+			sourceTree = "<group>";
+		};
+		109662BF29D3E5D8001EED2B /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		10B7BD542977BF2B00A11929 /* Python */ = {
