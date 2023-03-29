@@ -65,6 +65,7 @@ extension FaceIDViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             print("Unlock")
             if self.state.active {
                 DispatchQueue.main.async {
+                    self.fps = 1
                     self.state.active = false
                     
                 }
@@ -73,6 +74,7 @@ extension FaceIDViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             self.validTime = CMTimeMake(value: 0, timescale: 1)
             DispatchQueue.main.async {
                 if self.state.active == false {
+                    self.fps = 5
                     performLockScreenSequence(state: self.state)
                 }
                 print("Locking screen!")
