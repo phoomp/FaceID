@@ -33,6 +33,7 @@
 		106EFD1D29D34ED000992520 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1C29D34ED000992520 /* FirebaseFirestoreCombine-Community */; };
 		106EFD1F29D34ED000992520 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 106EFD1E29D34ED000992520 /* FirebaseFirestoreSwift */; };
 		1093281B29739744001D068B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1093281A29739744001D068B /* PlayerView.swift */; };
+		109662C129D3EA80001EED2B /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109662C029D3EA80001EED2B /* Instance.swift */; };
 		109DDABA2979150F00EB319C /* MLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DDAB92979150F00EB319C /* MLConversion.swift */; };
 		109FD36D29CEECE60063DC09 /* LockScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109FD36C29CEECE60063DC09 /* LockScreenView.swift */; };
 		109FD37129CEF6670063DC09 /* faceidmin.gif in Resources */ = {isa = PBXBuildFile; fileRef = 109FD37029CEF6670063DC09 /* faceidmin.gif */; };
@@ -95,6 +96,7 @@
 		106C264129D119A300C8F97B /* PointSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSet.swift; sourceTree = "<group>"; };
 		106EFD1329D34E6100992520 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1093281A29739744001D068B /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		109662C029D3EA80001EED2B /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
 		109DDAB92979150F00EB319C /* MLConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLConversion.swift; sourceTree = "<group>"; };
 		109FD36C29CEECE60063DC09 /* LockScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenView.swift; sourceTree = "<group>"; };
 		109FD37029CEF6670063DC09 /* faceidmin.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = faceidmin.gif; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		109662BF29D3E5D8001EED2B /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				109662C029D3EA80001EED2B /* Instance.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				109DDABA2979150F00EB319C /* MLConversion.swift in Sources */,
 				1093281B29739744001D068B /* PlayerView.swift in Sources */,
 				10694E0229D33BBD001BB69D /* CaptureSession.swift in Sources */,
+				109662C129D3EA80001EED2B /* Instance.swift in Sources */,
 				10510E6E2994760A001161F7 /* FaceNet4.mlpackage in Sources */,
 				109FD36D29CEECE60063DC09 /* LockScreenView.swift in Sources */,
 				10ACCC832988329100817F4A /* FaceNet3.mlpackage in Sources */,
