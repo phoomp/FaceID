@@ -8,7 +8,6 @@
 import Foundation
 import AppKit
 import AVKit
-import PythonKit
 import SwiftUI
 import Vision
 
